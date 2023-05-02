@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+data:
+  policy.default: role:denied
+  policy.csv: |
+    g, LeviathanInfrastructure:argocd-admin, role:admin

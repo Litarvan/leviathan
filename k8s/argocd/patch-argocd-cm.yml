@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  admin.enabled: "false"
+  url: https://argocd.leviathan.litarvan.dev
+  statusbadge.enabled: "true"
+  dex.config: |
+    connectors:
+      - type: github
+        id: github
+        name: GitHub
+        config:
+          clientID: 7f65964349511ba536a8
+          clientSecret: $argocd-secrets:dex.github.clientSecret
+          orgs:
+          - name: LeviathanInfrastructure
+          teams:
+          - argocd-admin
