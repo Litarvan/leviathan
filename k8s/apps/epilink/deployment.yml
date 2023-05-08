@@ -22,13 +22,13 @@ spec:
           image: litarvan/epilink:0.7.0-beta4
           env:
             - name: CONFIG_FILE
-              value: epilink.yml
+              value: data/epilink.yml
           ports:
             - name: http
               containerPort: 8080
           volumeMounts:
             - name: epilink
-              mountPath: /var/run/epilink
+              mountPath: /var/run/epilink/data
           resources:
             requests:
               cpu: 400m
