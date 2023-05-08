@@ -10,4 +10,4 @@ spec:
   volumeName: epilink
   resources:
     requests:
-      storage: 50Gi
+      storage: 250Mi
