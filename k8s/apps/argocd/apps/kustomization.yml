@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: argocd
 
 resources:
+  - cert-manager.yml
   - argocd.yml
 
   - epilink.yml
