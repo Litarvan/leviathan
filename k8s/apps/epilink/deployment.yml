@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: epilink
+  labels:
+    app: epilink
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: epilink
+  template:
+    metadata:
+      labels:
+        app: epilink
+    spec:
+      containers:
+        - name: epilink
+          image: litarvan/epilink:0.7.0-beta4
+          env:
+            - name: CONFIG_FILE
+              value: epilink.yml
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: epilink
+              mountPath: /var/run/epilink
+          resources:
+            requests:
+              cpu: 400m
+              memory: 1Gi
+            limits:
+              memory: 1Gi
+      volumes:
+        - name: epilink
+          persistentVolumeClaim:
+            claimName: epilink

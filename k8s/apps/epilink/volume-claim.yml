@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: epilink
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local
+  volumeName: epilink
+  resources:
+    requests:
+      storage: 50Gi

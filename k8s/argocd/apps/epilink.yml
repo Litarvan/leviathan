@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: epilink
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+  source:
+    repoURL: git@github.com:Litarvan/leviathan.git
+    targetRevision: HEAD
+    path: k8s/apps/epilink
+  destination:
+    namespace: default
