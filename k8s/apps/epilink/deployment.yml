@@ -20,9 +20,10 @@ spec:
       containers:
         - name: epilink
           image: litarvan/epilink:0.7.0-beta4
-          env:
-            - name: CONFIG_FILE
-              value: ../data/epilink.yml
+          command:
+            - bin/epilink-backend
+          args:
+            - data/epilink.yml
           ports:
             - name: http
               containerPort: 8080
