@@ -13,4 +13,5 @@ spec:
     targetRevision: HEAD
     path: k8s/apps/epilink
   destination:
+    name: in-cluster
     namespace: default

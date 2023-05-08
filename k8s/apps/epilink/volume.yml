@@ -15,11 +15,11 @@ spec:
     name: epilink
   local:
     path: /data/epilink
-# nodeAffinity: TODO
-#   required:
-#     nodeSelectorTerms:
-#       - matchExpressions:
-#           - key: kubernetes.io/hostname
-#             operator: In
-#             values:
-#               - leviathan-alpha
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - arkilin # TODO X D
