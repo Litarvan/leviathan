@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+  labels:
+    app: jellyfin
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      containers:
+        - name: jellyfin
+          image: jellyfin/jellyfin:10.8.10
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+          env:
+            - name: JELLYFIN_PublishedServerUrl
+              value: "https://jellyfin.litarvan.dev"
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
+          ports:
+            - name: http
+              containerPort: 8096
+            - name: dlna
+              containerPort: 1900
+              protocol: UDP
+            - name: discovery
+              containerPort: 7359
+              protocol: UDP
+          volumeMounts:
+            - name: jellyfin-config
+              mountPath: /config
+            - name: jellyfin-data
+              mountPath: /data
+            - name: hardware-acceleration
+              mountPath: /dev/dri/renderD128
+          resources:
+            requests:
+              cpu: 400m
+              memory: 512Mi
+            limits:
+              memory: 1Gi
+      volumes:
+        - name: jellyfin-config
+          persistentVolumeClaim:
+            claimName: jellyfin-config
+        - name: jellyfin-data
+          persistentVolumeClaim:
+            claimName: jellyfin-data
+        - name: hardware-acceleration
+          hostPath:
+            path: /dev/dri/renderD128

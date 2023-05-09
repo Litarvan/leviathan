@@ -1,0 +1,50 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jellyfin-config
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local
+  claimRef:
+    namespace: jellyfin
+    name: jellyfin-config
+  local:
+    path: /data/jellyfin-config
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - arkilin # TODO X D
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jellyfin-data
+spec:
+  capacity:
+    storage: 5Gi # TODO: More
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local
+  claimRef:
+    namespace: jellyfin
+    name: jellyfin-data
+  local:
+    path: /data/jellyfin-data
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - arkilin # TODO X D

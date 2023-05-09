@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-config
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local
+  volumeName: jellyfin-config
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local
+  volumeName: jellyfin-data
+  resources:
+    requests:
+      storage: 5Gi # TODO: More

@@ -9,3 +9,4 @@ resources:
 
   - bitwarden.yml
   - epilink.yml
+  - jellyfin.yml
