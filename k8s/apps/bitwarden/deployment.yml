@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bitwarden
+  labels:
+    app: bitwarden
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: bitwarden
+  template:
+    metadata:
+      labels:
+        app: bitwarden
+    spec:
+      containers:
+        - name: bitwarden
+          image: vaultwarden/server:1.28.1-alpine
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: websocket
+              containerPort: 3012
+              protocol: TCP
+          volumeMounts:
+            - name: bitwarden
+              mountPath: /data
+          resources:
+            requests:
+              cpu: 400m
+              memory: 512Mi
+            limits:
+              memory: 1Gi
+      volumes:
+        - name: bitwarden
+          persistentVolumeClaim:
+            claimName: bitwarden
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        runAsNonRoot: true

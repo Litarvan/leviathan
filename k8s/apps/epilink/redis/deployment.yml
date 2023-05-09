@@ -5,6 +5,8 @@ metadata:
   name: redis
   labels:
     app: redis
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   replicas: 1
   strategy:
@@ -19,7 +21,8 @@ spec:
     spec:
       containers:
         - name: redis
-          image: redis:7.0-alpine
+          image: redis:7.0.11-alpine
+          imagePullPolicy: IfNotPresent
           command:
             - redis-server
           args:

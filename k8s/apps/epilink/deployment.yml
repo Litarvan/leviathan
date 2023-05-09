@@ -20,6 +20,7 @@ spec:
       containers:
         - name: epilink
           image: litarvan/epilink:0.7.0-beta4
+          imagePullPolicy: IfNotPresent
           command:
             - bin/epilink-backend
           args:
