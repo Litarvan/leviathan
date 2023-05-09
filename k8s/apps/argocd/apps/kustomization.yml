@@ -7,4 +7,5 @@ resources:
   - cert-manager.yml
   - argocd.yml
 
+  - bitwarden.yml
   - epilink.yml
