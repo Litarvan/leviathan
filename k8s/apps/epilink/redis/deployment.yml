@@ -28,6 +28,10 @@ spec:
           args:
             - --protected-mode
             - no
+            - --save
+            -
+            - --appendonly
+            - no
           ports:
             - name: redis
               containerPort: 6379
@@ -54,7 +58,7 @@ spec:
                         - redis
                 topologyKey: kubernetes.io/hostname
       securityContext:
-        runAsUser: 7777777
-        runAsGroup: 7777777
-        fsGroup: 7777777
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
         runAsNonRoot: true
