@@ -21,6 +21,20 @@ spec:
         - name: bitwarden
           image: vaultwarden/server:1.28.1-alpine
           imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: bitwarden
+        # env:
+        #   - name: SMTP_USERNAME
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: bitwarden-smtp
+        #         key: emailUser
+        #   - name: SMTP_PASSWORD
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: bitwarden-smtp
+        #         key: emailPassword
           ports:
             - name: http
               containerPort: 8080
