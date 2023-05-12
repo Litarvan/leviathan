@@ -2,25 +2,25 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jellyfin-config
+  name: flood-config
 spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: local
-  volumeName: jellyfin-config
+  volumeName: flood-config
   resources:
     requests:
-      storage: 1Gi
+      storage: 100Mi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jellyfin-data
+  name: flood-data
 spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: local
-  volumeName: jellyfin-data
+  volumeName: flood-data
   resources:
     requests:
-      storage: 5Gi # TODO: More
+      storage: 200Mi

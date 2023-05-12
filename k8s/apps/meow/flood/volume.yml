@@ -2,19 +2,19 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: jellyfin-config
+  name: flood-config
 spec:
   capacity:
-    storage: 1Gi
+    storage: 100Mi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local
   claimRef:
-    namespace: jellyfin
-    name: jellyfin-config
+    namespace: meow
+    name: flood-config
   local:
-    path: /data/jellyfin-config
+    path: /data/meow-flood-config
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -27,19 +27,19 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: jellyfin-data
+  name: flood-data
 spec:
   capacity:
-    storage: 5Gi # TODO: More
+    storage: 200Mi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local
   claimRef:
-    namespace: jellyfin
-    name: jellyfin-data
+    namespace: meow
+    name: flood-data
   local:
-    path: /data/jellyfin-data
+    path: /data/meow-flood-data
   nodeAffinity:
     required:
       nodeSelectorTerms:

@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: torrents
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: local
+  volumeName: torrents
+  resources:
+    requests:
+      storage: 10Gi

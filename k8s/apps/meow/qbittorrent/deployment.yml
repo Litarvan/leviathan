@@ -1,0 +1,62 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+  labels:
+    app: qbittorrent
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: qbittorrent
+  template:
+    metadata:
+      labels:
+        app: qbittorrent
+    spec:
+      containers:
+        - name: qbittorrent
+          image: linuxserver/qbittorrent:4.5.2
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: WEBUI_PORT
+              value: "80"
+          ports:
+            - name: http
+              containerPort: 80
+            - name: torrent-tcp
+              containerPort: 6881
+              protocol: TCP
+            - name: torrent-udp
+              containerPort: 6881
+              protocol: UDP
+          volumeMounts:
+            - name: qbittorrent-config
+              mountPath: /config
+            - name: torrents
+              mountPath: /downloads
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              memory: 1Gi
+      volumes:
+        - name: qbittorrent-config
+          persistentVolumeClaim:
+            claimName: qbittorrent-config
+        - name: torrents
+          persistentVolumeClaim:
+            claimName: torrents
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        runAsNonRoot: true

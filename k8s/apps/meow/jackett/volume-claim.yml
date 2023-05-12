@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jackett-config
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local
+  volumeName: jackett-config
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jackett-blackhole
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local
+  volumeName: jackett-blackhole
+  resources:
+    requests:
+      storage: 1Gi

@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jackett
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  rules:
+    - host: trackers.meow.litarvan.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jackett
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - trackers.meow.litarvan.dev
+      secretName: trackers-meow-tls

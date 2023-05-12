@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jackett
+  labels:
+    app: jackett
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: jackett
+  template:
+    metadata:
+      labels:
+        app: jackett
+    spec:
+      containers:
+        - name: jackett
+          image: linuxserver/jackett:0.20.4135
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          ports:
+            - name: http
+              containerPort: 9117
+          volumeMounts:
+            - name: jackett-config
+              mountPath: /config
+            - name: jackett-blackhole
+              mountPath: /downloads
+          resources:
+            requests:
+              cpu: 150m
+              memory: 256Mi
+            limits:
+              memory: 512Mi
+      volumes:
+        - name: jackett-config
+          persistentVolumeClaim:
+            claimName: jackett-config
+        - name: jackett-blackhole
+          persistentVolumeClaim:
+            claimName: jackett-blackhole
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        runAsNonRoot: true

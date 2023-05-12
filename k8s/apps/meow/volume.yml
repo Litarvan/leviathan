@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: torrents
+spec:
+  capacity:
+    storage: 10Gi # TODO: More!
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local
+  claimRef:
+    namespace: meow
+    name: torrents
+  local:
+    path: /data/meow-torrents
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - arkilin # TODO X D

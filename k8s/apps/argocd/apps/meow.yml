@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: jellyfin
+  name: meow
   namespace: argocd
 spec:
   project: default
@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: git@github.com:Litarvan/leviathan.git
     targetRevision: HEAD
-    path: k8s/apps/jellyfin
+    path: k8s/apps/meow
   destination:
     name: in-cluster
     namespace: default

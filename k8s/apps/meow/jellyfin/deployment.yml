@@ -25,7 +25,7 @@ spec:
             privileged: true
           env:
             - name: JELLYFIN_PublishedServerUrl
-              value: "https://jellyfin.litarvan.dev"
+              value: "https://meow.litarvan.dev"
             - name: PGID
               value: "1000"
             - name: PUID
@@ -42,23 +42,23 @@ spec:
           volumeMounts:
             - name: jellyfin-config
               mountPath: /config
-            - name: jellyfin-data
+            - name: torrents
               mountPath: /data
             - name: hardware-acceleration
               mountPath: /dev/dri/renderD128
           resources:
             requests:
-              cpu: 400m
-              memory: 512Mi
+              cpu: 400m # TODO: More
+              memory: 512Mi # TODO: More
             limits:
-              memory: 1Gi
+              memory: 1Gi # TODO: More
       volumes:
         - name: jellyfin-config
           persistentVolumeClaim:
             claimName: jellyfin-config
-        - name: jellyfin-data
+        - name: torrents
           persistentVolumeClaim:
-            claimName: jellyfin-data
+            claimName: torrents
         - name: hardware-acceleration
           hostPath:
             path: /dev/dri/renderD128
