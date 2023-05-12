@@ -2,12 +2,51 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nextcloud
+  name: nextcloud-apps
 spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: local
-  volumeName: nextcloud
+  volumeName: nextcloud-apps
+  resources:
+    requests:
+      storage: 1Gi # TODO: More!
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-config
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local
+  volumeName: nextcloud-config
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local
+  volumeName: nextcloud-data
   resources:
     requests:
       storage: 5Gi # TODO: More!
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-theme
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local
+  volumeName: nextcloud-theme
+  resources:
+    requests:
+      storage: 256Mi

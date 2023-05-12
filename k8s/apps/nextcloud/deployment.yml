@@ -28,8 +28,14 @@ spec:
             - name: http
               containerPort: 80
           volumeMounts:
-            - name: nextcloud
-              mountPath: /var/www
+            - name: nextcloud-apps
+              mountPath: /var/www/html/custom_apps
+            - name: nextcloud-config
+              mountPath: /var/www/html/config
+            - name: nextcloud-data
+              mountPath: /var/www/html/data
+            - name: nextcloud-theme
+              mountPath: /var/www/html/themes/litarvan
           resources:
             requests:
               cpu: 300m
@@ -37,6 +43,15 @@ spec:
             limits:
               memory: 1Gi
       volumes:
-        - name: nextcloud
+        - name: nextcloud-apps
           persistentVolumeClaim:
-            claimName: nextcloud
+            claimName: nextcloud-apps
+        - name: nextcloud-config
+          persistentVolumeClaim:
+            claimName: nextcloud-config
+        - name: nextcloud-data
+          persistentVolumeClaim:
+            claimName: nextcloud-data
+        - name: nextcloud-theme
+          persistentVolumeClaim:
+            claimName: nextcloud-theme
