@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - volume.yml
   - volume-claim.yml
-  - configmap.yml
   - deployment.yml
   - service.yml
   - ingress.yml
