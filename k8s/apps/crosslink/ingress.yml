@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: crosslink
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  rules:
+    - host: crosslink.litarvan.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: crosslink
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - crosslink.litarvan.dev
+      secretName: crosslink-tls

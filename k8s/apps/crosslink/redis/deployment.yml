@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app: redis
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7.0.11-alpine
+          imagePullPolicy: IfNotPresent
+          command:
+            - redis-server
+          args:
+            - --protected-mode
+            - no
+            - --save
+            -
+            - --appendonly
+            - no
+          ports:
+            - name: redis
+              containerPort: 6379
+          resources:
+            requests:
+              cpu: 50m
+              memory: 100Mi
+            limits:
+              memory: 100Mi
+      affinity: # For future multi-node :)
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - crosslink
+                    - key: app
+                      operator: In
+                      values:
+                        - redis
+                topologyKey: kubernetes.io/hostname
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        runAsNonRoot: true

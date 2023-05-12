@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crosslink
+  labels:
+    app: crosslink
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: crosslink
+  template:
+    metadata:
+      labels:
+        app: crosslink
+    spec:
+      containers:
+        - name: crosslink
+          image: litarvan/epilink:0.7.0-beta4
+          imagePullPolicy: IfNotPresent
+          command:
+            - bin/epilink-backend
+          args:
+            - data/epilink.yml
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: crosslink
+              mountPath: /var/run/epilink/data
+          resources:
+            requests:
+              cpu: 400m
+              memory: 1Gi
+            limits:
+              memory: 1Gi
+      volumes:
+        - name: crosslink
+          persistentVolumeClaim:
+            claimName: crosslink

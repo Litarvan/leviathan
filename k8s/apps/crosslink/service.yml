@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crosslink
+spec:
+  type: ClusterIP
+  selector:
+    app: crosslink
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080

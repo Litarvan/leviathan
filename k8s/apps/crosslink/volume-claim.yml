@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: crosslink
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local
+  volumeName: crosslink
+  resources:
+    requests:
+      storage: 250Mi

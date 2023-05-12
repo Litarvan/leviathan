@@ -8,6 +8,7 @@ resources:
   - argocd.yml
 
   - bitwarden.yml
+  - crosslink.yml
   - epilink.yml
   - haste-server.yml
   - meow.yml
