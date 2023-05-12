@@ -11,7 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local
   claimRef:
-    namespace: jellyfin
+    namespace: meow
     name: jellyfin-config
   local:
     path: /data/meow-jellyfin-config
