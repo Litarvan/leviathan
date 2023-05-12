@@ -5,6 +5,7 @@ metadata:
   name: nextcloud
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/rewrite-target: "index.php/$1"
     nginx.ingress.kubernetes.io/server-snippet: |
       location = /.well-known/carddav {
         return 301 $scheme://$host:$server_port/remote.php/dav;
@@ -17,7 +18,7 @@ spec:
     - host: files.litarvan.dev
       http:
         paths:
-          - path: /
+          - path: /(.*)
             pathType: Prefix
             backend:
               service:
