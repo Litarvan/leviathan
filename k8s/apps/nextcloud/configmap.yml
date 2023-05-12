@@ -8,3 +8,6 @@ metadata:
 data:
   TRUSTED_PROXIES: "10.42.0.0/32"
   SQLITE_DATABASE: "nextcloud.db"
+  OVERWRITEHOST: "files.litarvan.dev"
+  OVERWRITEPROTOCOL: "https"
+  OVERWRITECONDADDR: "^10\.42\.*"
