@@ -21,6 +21,9 @@ spec:
         - name: nextcloud
           image: nextcloud:26.0.1-apache
           imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: nextcloud
           ports:
             - name: http
               containerPort: 80

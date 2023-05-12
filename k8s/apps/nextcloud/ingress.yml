@@ -5,6 +5,13 @@ metadata:
   name: nextcloud
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location = /.well-known/carddav {
+        return 301 $scheme://$host:$server_port/remote.php/dav;
+      }
+      location = /.well-known/caldav {
+        return 301 $scheme://$host:$server_port/remote.php/dav;
+      }
 spec:
   rules:
     - host: files.litarvan.dev

@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nextcloud
+  labels:
+    app: nextcloud
+data:
+  APACHE_DISABLE_REWRITE_IP: "1"
+  TRUSTED_PROXIES: "10.42.0.0/32"
+  SQLITE_DATABASE: "nextcloud.db"
