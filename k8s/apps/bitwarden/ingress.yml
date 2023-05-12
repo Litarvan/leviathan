@@ -26,7 +26,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
 spec:
   rules:
-    - host: bitwarden.litarvan.dev
+    - host: passwords.litarvan.dev
       http:
         paths:
           - path: /
@@ -45,5 +45,5 @@ spec:
                   name: websocket
   tls:
     - hosts:
-        - bitwarden.litarvan.dev
-      secretName: bitwarden-tls
+        - passwords.litarvan.dev
+      secretName: passwords-tls

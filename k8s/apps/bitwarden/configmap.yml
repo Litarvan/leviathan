@@ -12,7 +12,7 @@ data:
   # SMTP_SECURITY: "starttls"
   WEBSOCKET_ENABLED: "true"
   DATA_FOLDER: "/data"
-  DOMAIN: "https://bitwarden.litarvan.dev"
+  DOMAIN: "https://passwords.litarvan.dev"
   ROCKET_WORKERS: "10"
   SHOW_PASSWORD_HINT: "false"
   WEB_VAULT_ENABLED: "true"
