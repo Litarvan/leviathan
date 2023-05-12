@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local
+  volumeName: nextcloud
+  resources:
+    requests:
+      storage: 5Gi # TODO: More!

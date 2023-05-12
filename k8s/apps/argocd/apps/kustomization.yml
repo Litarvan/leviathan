@@ -12,3 +12,4 @@ resources:
   - epilink.yml
   - haste-server.yml
   - meow.yml
+  - nextcloud.yml
