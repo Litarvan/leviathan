@@ -10,4 +10,4 @@ data:
   SQLITE_DATABASE: "nextcloud.db"
   OVERWRITEHOST: "files.litarvan.dev"
   OVERWRITEPROTOCOL: "https"
-  OVERWRITECONDADDR: "^10\.42\.*"
+  OVERWRITECONDADDR: "^10\\.42\\.*"
