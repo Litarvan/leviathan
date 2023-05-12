@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: haste-server
+  labels:
+    app: haste-server
+data:
+  STORAGE_TYPE: "file"
+  STORAGE_FILEPATH: "/data"

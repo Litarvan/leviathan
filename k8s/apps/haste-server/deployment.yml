@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: haste-server
+  labels:
+    app: haste-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: haste-server
+  template:
+    metadata:
+      labels:
+        app: haste-server
+    spec:
+      containers:
+        - name: haste-server
+          image: jonasled/haste-server:latest # There are no other tags, it's not updated anyway
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: haste-server
+          ports:
+            - name: http
+              containerPort: 7777
+          volumeMounts:
+            - name: haste-server
+              mountPath: /data
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 512Mi
+      volumes:
+        - name: haste-server
+          persistentVolumeClaim:
+            claimName: haste-server
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        runAsNonRoot: true
