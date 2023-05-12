@@ -47,8 +47,3 @@ spec:
         - name: jackett-blackhole
           persistentVolumeClaim:
             claimName: jackett-blackhole
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        runAsNonRoot: true
