@@ -10,7 +10,7 @@ spec:
   ports:
     - name: http
       port: 80
-      targetPort: 80
+      targetPort: 8080
     - name: torrent-tcp
       port: 6881
       targetPort: 6881

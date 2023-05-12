@@ -27,10 +27,10 @@ spec:
             - name: PGID
               value: "1000"
             - name: WEBUI_PORT
-              value: "80"
+              value: "8080"
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
             - name: torrent-tcp
               containerPort: 6881
               protocol: TCP
