@@ -10,8 +10,9 @@ resources:
   - volume-claim.yml
 
   - qbittorrent/
-  - jackett/
   - flood/
+  - flaresolverr/
+  - jackett/
   - radarr/
   - sonarr/
   - jellyfin/
