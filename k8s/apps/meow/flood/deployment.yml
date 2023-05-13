@@ -21,7 +21,7 @@ spec:
         - name: flood
           image: jesec/flood:master-distroless
           imagePullPolicy: IfNotPresent
-          command:
+          args:
             - --allowedpath
             - /data
           env:
