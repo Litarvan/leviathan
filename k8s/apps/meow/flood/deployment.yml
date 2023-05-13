@@ -21,11 +21,16 @@ spec:
         - name: flood
           image: jesec/flood:master-distroless
           imagePullPolicy: IfNotPresent
+          command:
+            - --allowedpath
+            - /data
           env:
             - name: PUID
               value: "1000"
             - name: PGID
               value: "1000"
+            - name: HOME
+              value: "/config"
           ports:
             - name: http
               containerPort: 3000
