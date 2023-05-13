@@ -14,4 +14,4 @@ spec:
     path: k8s/apps/epilink
   destination:
     name: in-cluster
-    namespace: default
+    namespace: epilink

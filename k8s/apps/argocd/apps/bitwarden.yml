@@ -14,4 +14,4 @@ spec:
     path: k8s/apps/bitwarden
   destination:
     name: in-cluster
-    namespace: default
+    namespace: bitwarden

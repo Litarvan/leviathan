@@ -14,4 +14,4 @@ spec:
     path: k8s/apps/haste-server
   destination:
     name: in-cluster
-    namespace: default
+    namespace: haste-server

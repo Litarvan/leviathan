@@ -14,4 +14,4 @@ spec:
     path: k8s/apps/crosslink
   destination:
     name: in-cluster
-    namespace: default
+    namespace: crosslink
