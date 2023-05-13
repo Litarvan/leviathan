@@ -13,3 +13,4 @@ resources:
   - haste-server.yml
   - meow.yml
   - nextcloud.yml
+  - nix-course.yml

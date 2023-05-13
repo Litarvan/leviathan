@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nix-course
+  labels:
+    app: nix-course
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nix-course
+  template:
+    metadata:
+      labels:
+        app: nix-course
+    spec:
+      containers:
+        - name: nix-course
+          image: ghcr.io/litarvan/nix-course-fr:main@sha256:5e3e041527b62d1cffea63354a5ce71ecf6905e64cd7765e15ffc5e198222a3e
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3000
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi
+      imagePullSecrets:
+        - name: litarvan-github-registry
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        runAsNonRoot: true
