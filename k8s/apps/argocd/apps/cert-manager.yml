@@ -14,4 +14,4 @@ spec:
     path: k8s/apps/cert-manager
   destination:
     name: in-cluster
-    namespace: default
+    namespace: cert-manager
