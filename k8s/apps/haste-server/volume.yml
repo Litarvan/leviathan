@@ -22,4 +22,4 @@ spec:
             - key: kubernetes.io/hostname
               operator: In
               values:
-                - arkilin # TODO X D
+                - leviathan-alpha
