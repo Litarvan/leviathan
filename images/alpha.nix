@@ -51,7 +51,7 @@
       }
       {
         type = "kustomization";
-        path = "github.com/Litarvan/leviathan/k8s/apps/argocd";
+        path = "github.com/Litarvan/leviathan/k8s/bootstrap";
       }
     ];
   };
