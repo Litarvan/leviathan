@@ -134,8 +134,9 @@ in
 
     systemd.services.leviathan-bootstrap = mkIf (cfg.bootstrapManifests != null) {
       description = "Leviathan bootstrap service";
-      after = [ "rke2.service" ];
       wants = [ "rke2.service" ];
+      requires = [ "rke2.service" ];
+      after = [ "rke2.service" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         Type = "oneshot";
