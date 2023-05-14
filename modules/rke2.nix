@@ -142,16 +142,16 @@ in
         RemainAfterExit = "yes";
         TimeoutStartSec = 0;
         Environment = "KUBECONFIG=/etc/rancher/rke2/rke2.yaml:PATH=/var/lib/rancher/rke2/bin";
-        ExecStart = pkgs.runCommand "leviathan-bootstrap" {} (concatStringsSep "\n" (map ({ type ? "resource", path }: ''
-          do
-            echo Applying ${type} ${path}...
-            kubectl apply -${if type == "kustomization" then "k" else "f"} ${path} && break
+        ExecStart = pkgs.writeShellScriptBin "leviathan-bootstrap" (concatStringsSep "\n" (map ({ type ? "resource", path }: ''
+          while true; do
+            echo Applying "${type}" "${path}"...
+            kubectl apply -"${if type == "kustomization" then "k" else "f"}" "${path}" && break
             echo Command failed! Retrying in 5 seconds...
             sleep 5
             echo
           done
           echo
-        '')));
+        '') cfg.bootstrapManifests));
       };
     };
   };
