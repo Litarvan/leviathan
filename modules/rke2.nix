@@ -141,6 +141,7 @@ in
         Type = "oneshot";
         RemainAfterExit = "yes";
         TimeoutStartSec = 0;
+        Environment = "PATH=/run/current-system/sw/bin";
         ExecStart = lib.getExe (pkgs.writeShellScriptBin "leviathan-bootstrap" (concatStringsSep "\n" (map ({ type ? "resource", path }: ''
           while true; do
             echo Applying "${type}" "${path}"...
