@@ -20,7 +20,10 @@
   };
   hardware.nvidia.modesetting.enable = true;
 
-  nix.maxJobs = lib.mkDefault 4;
+  nix.settings = {
+    extra-experimental-features = [ "flakes" "nix-command" "repl-flake" ];
+    max-jobs = lib.mkDefault 4;
+  };
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   fileSystems = {
