@@ -1,4 +1,4 @@
-{ self, lib, ... }:
+{ self, nixpkgs, pkgs, lib, ... }:
 
 let
   host = path:
@@ -9,6 +9,19 @@ let
       system = "x86_64-linux";
       modules = modules ++ [
         ({ lib, modulesPath, ... }: {
+          nix.nixPath = [
+            "nixpkgs=${nixpkgs}"
+            "leviathan=${self}"
+          ];
+          nixpkgs = {
+            inherit pkgs;
+            overlays = (builtins.attrValues self.overlays);
+          };
+          nix.registry = {
+            nixpkgs.flake = nixpkgs;
+            leviathan.flake = self;
+          };
+
           system.build.vm = (import "${modulesPath}/../lib/eval-config.nix" {
             system = "x86_64-linux";
             modules = modules ++ [
