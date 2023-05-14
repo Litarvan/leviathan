@@ -2,7 +2,7 @@
 
 stdenv.mkDerivation rec {
   pname = "rke2";
-  version = "1.26.4+rke2r1";
+  version = "1.27.1+rke2r1";
 
   src = fetchurl {
     url = "https://github.com/rancher/rke2/releases/download/v${version}/rke2.linux-amd64.tar.gz";

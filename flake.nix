@@ -18,5 +18,6 @@
       packages.${system} = import ./pkgs { inherit lib pkgs; };
 
       nixosModules = import ./modules;
+      nixosConfigurations = import ./images { inherit self lib; };
     };
 }
