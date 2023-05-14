@@ -9,6 +9,7 @@ resources:
   - ingress.yml
   - apps/
 
-patchesStrategicMerge:
-  - patch-argocd-cm.yml
-  - patch-argocd-rbac-cm.yml
+patches:
+  - path: patch-argocd-cm.yml
+  - path: patch-argocd-rbac-cm.yml
+
