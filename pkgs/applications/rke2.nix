@@ -6,7 +6,7 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = "https://github.com/rancher/rke2/releases/download/v${version}/rke2.linux-amd64.tar.gz";
-    hash = "sha256-LaSRPSZDWAkaBlKz2e+QcY5reFWI7cVPqILaKyk1FJE=";
+    hash = "sha256-4Caq1fTKHZ9L7reDxou/nHjar/JUJSMWDcVpzL0Z4Lk=";
   };
 
   sourceRoot = ".";
