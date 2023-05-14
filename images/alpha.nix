@@ -28,7 +28,7 @@
 
   fileSystems = {
     "/" = {
-      label = "leviathan_root_cache";
+      label = "leviathan_root";
       fsType = "ext4";
     };
 
@@ -38,7 +38,7 @@
     };
 
     "/secrets" = {
-      label = "leviathan_secrets";
+      label = "leviathan_secret";
       fsType = "ext4";
     };
   };
