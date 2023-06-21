@@ -2,11 +2,11 @@
 
 stdenv.mkDerivation rec {
   pname = "rke2";
-  version = "1.27.1+rke2r1";
+  version = "1.27.2+rke2r1";
 
   src = fetchurl {
     url = "https://github.com/rancher/rke2/releases/download/v${version}/rke2.linux-amd64.tar.gz";
-    hash = "sha256-4Caq1fTKHZ9L7reDxou/nHjar/JUJSMWDcVpzL0Z4Lk=";
+    hash = "sha256-HlCFJgtftT3+Jce4o0MdU66CP/XyPHOR2vJf5Gbe5hk=";
   };
 
   sourceRoot = ".";
