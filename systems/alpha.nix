@@ -4,14 +4,18 @@
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "sd_mod" ];
     kernelModules = [ "kvm-intel" ];
+
+    postBootCommands = ''
+      mkdir -p /data/{nvme1,hdd1,usb1}
+    '';
   };
+
+  netboot.enable = true;
 
   networking = {
     hostName = "leviathan-alpha";
     interfaces.eth0.useDHCP = true;
   };
-
-  nixpkgs.config.allowUnfree = true;
 
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl = {
@@ -20,26 +24,23 @@
   };
   hardware.nvidia.modesetting.enable = true;
 
-  nix.settings = {
-    extra-experimental-features = [ "flakes" "nix-command" "repl-flake" ];
-    max-jobs = lib.mkDefault 4;
-  };
+  nix.settings.max-jobs = lib.mkDefault 4;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   fileSystems = {
-    "/" = {
-      label = "leviathan_root";
+    "/data/nvme1" = {
+      label = "lvth_data_nvme1";
       fsType = "ext4";
     };
 
-    "/data" = {
-      label = "leviathan_data";
+    "/data/hdd1" = {
+      label = "lvth_data_hdd1";
       fsType = "ext4";
     };
 
-    "/secrets" = {
-      label = "leviathan_secret";
-      fsType = "ext4";
+    "/data/usb1" = {
+      label = "LVTH_ALPHA";
+      fsType = "vfat";
     };
   };
 
@@ -47,7 +48,7 @@
     enable = true;
     bootstrapManifests = [
       {
-        path = "/secrets/*";
+        path = "/data/usb1/secrets/*";
       }
       {
         type = "kustomization";

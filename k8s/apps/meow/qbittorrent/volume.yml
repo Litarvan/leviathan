@@ -14,7 +14,7 @@ spec:
     namespace: meow
     name: qbittorrent-config
   local:
-    path: /data/meow-qbittorrent-config
+    path: /data/nvme1/meow-qbittorrent-config
   nodeAffinity:
     required:
       nodeSelectorTerms:

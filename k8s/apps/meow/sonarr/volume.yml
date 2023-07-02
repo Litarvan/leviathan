@@ -14,7 +14,7 @@ spec:
     namespace: meow
     name: sonarr-config
   local:
-    path: /data/meow-sonarr-config
+    path: /data/nvme1/meow-sonarr-config
   nodeAffinity:
     required:
       nodeSelectorTerms:

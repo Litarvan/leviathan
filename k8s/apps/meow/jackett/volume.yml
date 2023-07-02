@@ -14,7 +14,7 @@ spec:
     namespace: meow
     name: jackett-config
   local:
-    path: /data/meow-jackett-config
+    path: /data/nvme1/meow-jackett-config
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -39,7 +39,7 @@ spec:
     namespace: meow
     name: jackett-blackhole
   local:
-    path: /data/meow-jackett-blackhole
+    path: /data/nvme1/meow-jackett-blackhole
   nodeAffinity:
     required:
       nodeSelectorTerms:

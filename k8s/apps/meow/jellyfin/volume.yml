@@ -14,7 +14,7 @@ spec:
     namespace: meow
     name: jellyfin-config
   local:
-    path: /data/meow-jellyfin-config
+    path: /data/nvme1/meow-jellyfin-config
   nodeAffinity:
     required:
       nodeSelectorTerms:

@@ -14,7 +14,7 @@ spec:
     namespace: epilink
     name: epilink
   local:
-    path: /data/epilink
+    path: /data/nvme1/epilink
   nodeAffinity:
     required:
       nodeSelectorTerms:

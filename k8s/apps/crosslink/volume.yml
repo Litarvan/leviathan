@@ -14,7 +14,7 @@ spec:
     namespace: crosslink
     name: crosslink
   local:
-    path: /data/crosslink
+    path: /data/nvme1/crosslink
   nodeAffinity:
     required:
       nodeSelectorTerms:

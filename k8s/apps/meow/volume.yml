@@ -14,7 +14,7 @@ spec:
     namespace: meow
     name: torrents
   local:
-    path: /data/meow-torrents
+    path: /data/hdd1/meow-torrents
   nodeAffinity:
     required:
       nodeSelectorTerms:

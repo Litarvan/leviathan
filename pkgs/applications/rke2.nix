@@ -15,4 +15,6 @@ stdenv.mkDerivation rec {
     install -Dm755 bin/rke2-killall.sh $out/bin/rke2-killall.sh
     install -Dm644 share/rke2/LICENSE.txt $out/share/rke2/LICENSE.txt
   '';
+
+  meta.platforms = [ "x86_64-linux" ];
 }

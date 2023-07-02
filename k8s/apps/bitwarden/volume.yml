@@ -5,7 +5,7 @@ metadata:
   name: bitwarden
 spec:
   capacity:
-    storage: 25Gi
+    storage: 5Gi # TODO: More!
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
@@ -14,7 +14,7 @@ spec:
     namespace: bitwarden
     name: bitwarden
   local:
-    path: /data/bitwarden
+    path: /data/nvme1/bitwarden
   nodeAffinity:
     required:
       nodeSelectorTerms:

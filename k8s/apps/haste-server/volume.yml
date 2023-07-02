@@ -14,7 +14,7 @@ spec:
     namespace: haste-server
     name: haste-server
   local:
-    path: /data/haste-server
+    path: /data/nvme1/haste-server
   nodeAffinity:
     required:
       nodeSelectorTerms:

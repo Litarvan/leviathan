@@ -14,7 +14,7 @@ spec:
     namespace: meow
     name: flood-config
   local:
-    path: /data/meow-flood-config
+    path: /data/nvme1/meow-flood-config
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -39,7 +39,7 @@ spec:
     namespace: meow
     name: flood-data
   local:
-    path: /data/meow-flood-data
+    path: /data/nvme1/meow-flood-data
   nodeAffinity:
     required:
       nodeSelectorTerms:

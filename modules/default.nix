@@ -1,5 +1,6 @@
 {
   core = import ./core.nix;
-  litarvan = import ./litarvan.nix;
+  netboot = import ./netboot.nix;
   rke2 = import ./rke2.nix;
+  users = import ./users.nix;
 }

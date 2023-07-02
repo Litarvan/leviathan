@@ -1,7 +1,7 @@
 { pkgs, modulesPath, ... }:
 
 {
- imports = [
+  imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
@@ -18,4 +18,10 @@
   environment.systemPackages = with pkgs; [ vim git ];
 
   networking.nameservers = [ "1.1.1.1" ];
+
+  nix = {
+    package = pkgs.nixVersions.nix_2_16;
+    settings.extra-experimental-features = [ "flakes" "nix-command" "repl-flake" ];
+  };
+  nixpkgs.config.allowUnfree = true;
 }

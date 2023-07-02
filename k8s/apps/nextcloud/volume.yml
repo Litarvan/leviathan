@@ -14,7 +14,7 @@ spec:
     namespace: nextcloud
     name: nextcloud-apps
   local:
-    path: /data/nextcloud-apps
+    path: /data/nvme1/nextcloud-apps
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -39,7 +39,7 @@ spec:
     namespace: nextcloud
     name: nextcloud-config
   local:
-    path: /data/nextcloud-config
+    path: /data/nvme1/nextcloud-config
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -64,7 +64,7 @@ spec:
     namespace: nextcloud
     name: nextcloud-data
   local:
-    path: /data/nextcloud-data
+    path: /data/hdd1/nextcloud-data
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -89,7 +89,7 @@ spec:
     namespace: nextcloud
     name: nextcloud-theme
   local:
-    path: /data/nextcloud-theme
+    path: /data/nvme1/nextcloud-theme
   nodeAffinity:
     required:
       nodeSelectorTerms:

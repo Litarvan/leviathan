@@ -14,7 +14,7 @@ spec:
     namespace: meow
     name: radarr-config
   local:
-    path: /data/meow-radarr-config
+    path: /data/nvme1/meow-radarr-config
   nodeAffinity:
     required:
       nodeSelectorTerms:
