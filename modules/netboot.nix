@@ -113,6 +113,7 @@ in
         "macvlan"
         "af_packet"
         "xennet"
+        "e1000"
         "e1000e"
         "igc"
       ];
@@ -139,21 +140,23 @@ in
     # Network is done in preLVMCommands, which means it is already set up when
     # we get to postDeviceCommands
     boot.initrd.postDeviceCommands = ''
-      if ! [ -f /etc/resolv.conf ]; then
-        # In case we didn't receive a nameserver from our DHCP
-        echo ${defaultNameserver} > /etc/resolv.conf
-      fi
+      echo "nameserver ${defaultNameserver}" > /etc/resolv.conf
 
-      if ! mkfs.ext4 -F -L ${labels.rw_store} /dev/disk/by-partlabel/${labels.rw_store}; then
+      if ! mkfs.ext4 -F -L ${labels.rw_store} /dev/disk/by-label/${labels.rw_store}; then
         echo "Failed to cleanup rw store partition"
       fi
 
-      if ! mkfs.ext4 -F -L ${labels.root} /dev/disk/by-partlabel/${labels.root}; then
+      if ! mkfs.ext4 -F -L ${labels.root} /dev/disk/by-label/${labels.root}; then
         echo "Failed to cleanup root partition"
       fi
 
+      echo "Mounting target root at '$targetRoot'"
       mkdir -p $targetRoot
-      curl ${downloadRoot}/${systemName}.squashfs -o $targetRoot/${storeFile}
+      mount -t ext4 /dev/disk/by-label/${labels.root} $targetRoot
+      if ! curl ${downloadRoot}/${systemName}.squashfs -o $targetRoot/${storeFile}; then
+        echo "Failed to download squashfs, booting will fail"
+        fail
+      fi
     '';
 
     # Usually, stage2Init is passed using the init kernel command line argument
