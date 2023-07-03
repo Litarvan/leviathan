@@ -9,6 +9,10 @@
   security.acme = {
     acceptTerms = true;
     defaults.email = "adrien1975" + "@" + "live.fr";
+    certs."pxe.alligator.litarvan.dev" = {
+      keyType = "rsa2048"; # iPXE does not support EC*
+      extraLegoRunFlags = [ "--preferred-chain" "ISRG Root X1" ]; # iPXE is missing some root certificates
+    };
   };
 
   services.nginx = {
@@ -19,7 +23,8 @@
     recommendedOptimisation = true;
     recommendedProxySettings = true;
 
-    sslCiphers = "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DES-CBC3-SHA";
+    # iPXE does not support ECDHE ciphers and we can't use DHE ciphers so we need to add AES128-GCM-SHA256, even though it's weak
+    sslCiphers = "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DES-CBC3-SHA:AES128-GCM-SHA256";
 
     commonHttpConfig = ''
       ssl_session_timeout 1d;
