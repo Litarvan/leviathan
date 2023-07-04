@@ -9,13 +9,19 @@ in
   users.users.litarvan = {
     description = "Adrien Navratil";
     isNormalUser = true;
-    createHome = true;
     extraGroups = [ "wheel" ];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [ sshKeys.yubiForge ];
   };
 
-  # We need this to do remote nixos-rebuild
+  security.pam.yubico = {
+     enable = true;
+     debug = true;
+     mode = "challenge-response";
+     yubico.id = [ "16097343" ];
+  };
+
+  # We need this to do remote nixos-rebuild easily for now (TODO: remove it)
   users.users.root = {
    shell = pkgs.fish;
    openssh.authorizedKeys.keys = [ sshKeys.yubiForge ];
@@ -27,6 +33,13 @@ in
     enable = true;
     ports = [ 36255 ];
     settings.PasswordAuthentication = false;
+  };
+
+  environment = {
+    variables.KUBECONFIG = "/etc/rancher/rke2/rke2.yaml";
+    extraInit = ''
+      export PATH="/var/lib/rancher/rke2/bin:$PATH"
+    '';
   };
 
   home-manager = {

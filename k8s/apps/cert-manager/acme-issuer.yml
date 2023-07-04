@@ -6,7 +6,8 @@ metadata:
   namespace: cert-manager
 spec:
   acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
+    # server: https://acme-v02.api.letsencrypt.org/directory
+    server: https://acme-staging-v02.api.letsencrypt.org/directory # TODO
     email: adrien1975@live.fr
     privateKeySecretRef:
       name: letsencrypt-account-key

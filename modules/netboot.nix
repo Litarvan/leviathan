@@ -63,6 +63,7 @@ in
       "/home" = {
         label = labels.home;
         fsType = "ext4";
+        neededForBoot = true;
       };
     };
 
@@ -120,6 +121,13 @@ in
       kernelModules = [
         "loop"
         "overlay"
+
+        # Kubernetes support
+        "br_netfilter"
+        "iptable_nat"
+        "iptable_filter"
+        "ip6table_nat"
+        "ip6table_filter"
       ];
 
       # For store downloading
@@ -150,13 +158,13 @@ in
         echo "Failed to cleanup root partition"
       fi
 
-      echo "Mounting target root at '$targetRoot'"
-      mkdir -p $targetRoot
+      mkdir -p $targetRoot # TODO: Better way?
       mount -t ext4 /dev/disk/by-label/${labels.root} $targetRoot
       if ! curl ${downloadRoot}/${systemName}.squashfs -o $targetRoot/${storeFile}; then
-        echo "Failed to download squashfs, booting will fail"
+        echo "Failed to download squashfs"
         fail
       fi
+      umount $targetRoot # X D
     '';
 
     # Usually, stage2Init is passed using the init kernel command line argument
