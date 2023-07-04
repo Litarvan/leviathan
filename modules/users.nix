@@ -1,12 +1,22 @@
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   sshKeys = {
     yubiForge = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGoFiziKbq1TVgaiSp4SioutOG78WSkbJrrIYrKEYM5H cardno:16 097 343";
   };
+  fishInit = ''
+    clear
+    echo
+    ${lib.getExe pkgs.neofetch}
+    echo
+
+    ${lib.getExe pkgs.starship} init fish | source
+  '';
+  ifNetboot = lib.mkIf config.leviathan.netboot.enable;
+  ifNotNetboot = lib.mkIf (!config.leviathan.netboot.enable);
 in
 {
-  users.users.litarvan = {
+  users.users.litarvan = ifNotNetboot {
     description = "Adrien Navratil";
     isNormalUser = true;
     extraGroups = [ "wheel" ];
@@ -14,35 +24,26 @@ in
     openssh.authorizedKeys.keys = [ sshKeys.yubiForge ];
   };
 
-  security.pam.yubico = {
-     enable = true;
-     debug = true;
-     mode = "challenge-response";
-     yubico.id = [ "16097343" ];
-  };
-
-  # We need this to do remote nixos-rebuild easily for now (TODO: remove it)
   users.users.root = {
    shell = pkgs.fish;
-   openssh.authorizedKeys.keys = [ sshKeys.yubiForge ];
+   openssh.authorizedKeys.keys = ifNetboot [ sshKeys.yubiForge ];
   };
 
-  programs.fish.enable = true;
+  programs.fish = {
+    enable = true;
+    interactiveShellInit = ifNetboot fishInit;
+  };
 
   services.openssh = {
     enable = true;
     ports = [ 36255 ];
-    settings.PasswordAuthentication = false;
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = ifNotNetboot "no";
+    };
   };
 
-  environment = {
-    variables.KUBECONFIG = "/etc/rancher/rke2/rke2.yaml";
-    extraInit = ''
-      export PATH="/var/lib/rancher/rke2/bin:$PATH"
-    '';
-  };
-
-  home-manager = {
+  home-manager = ifNotNetboot {
     useGlobalPkgs = true;
     useUserPackages = true;
     users.litarvan = {
@@ -50,7 +51,7 @@ in
         username = "litarvan";
         homeDirectory = "/home/litarvan";
 
-        stateVersion = "23.05";
+        stateVersion = lib.mkDefault config.system.stateVersion;
       };
 
       programs = {
@@ -58,14 +59,7 @@ in
 
         fish = {
           enable = true;
-          interactiveShellInit = ''
-            clear
-            echo
-            ${lib.getExe pkgs.neofetch}
-            echo
-
-            ${lib.getExe pkgs.starship} init fish | source
-          '';
+          interactiveShellInit = fishInit;
         };
       };
     };

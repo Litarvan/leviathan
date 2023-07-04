@@ -15,9 +15,21 @@
   i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "Europe/Paris";
 
-  environment.systemPackages = with pkgs; [ vim git ];
+  networking = {
+    useDHCP = true;
+    dhcpcd = {
+      wait = "any"; # Make sure we get an IP before marking the service as up
+      extraConfig = ''
+        noipv4ll
+      '';
+    };
+    nameservers = [ "1.1.1.1" ]; # For some reason, rke2 will fail if we put more than 1
+  };
 
-  networking.nameservers = [ "1.1.1.1" ];
+  security.protectKernelImage = true;
+  hardware.enableRedistributableFirmware = true;
+
+  environment.systemPackages = with pkgs; [ vim git ];
 
   nix = {
     package = pkgs.nixVersions.nix_2_16;

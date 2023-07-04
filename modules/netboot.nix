@@ -19,9 +19,9 @@ let
   };
 in
 {
-  options.netboot.enable = mkEnableOption "Set defaults for creating a netboot image";
+  options.leviathan.netboot.enable = mkEnableOption "Set defaults for creating a netboot image";
 
-  config = mkIf config.netboot.enable {
+  config = mkIf config.leviathan.netboot.enable {
     # Don't build the GRUB menu builder script, since we don't need it
     # here and it causes a cyclic dependency.
     boot.loader.grub.enable = false;
@@ -33,6 +33,12 @@ in
       "/" = {
         label = labels.root;
         fsType = "ext4";
+      };
+
+      "/root" = {
+        label = labels.home;
+        fsType = "ext4";
+        neededForBoot = true;
       };
 
       # In stage 1, mount a tmpfs on top of /nix/store (the squashfs
@@ -59,15 +65,8 @@ in
           "workdir=/nix/.rw-store/work"
         ];
       };
-
-      "/home" = {
-        label = labels.home;
-        fsType = "ext4";
-        neededForBoot = true;
-      };
     };
 
-    networking.useDHCP = mkForce true;
     boot.initrd = {
       availableKernelModules = [
         # To mount /nix/store
@@ -121,18 +120,14 @@ in
       kernelModules = [
         "loop"
         "overlay"
-
-        # Kubernetes support
-        "br_netfilter"
-        "iptable_nat"
-        "iptable_filter"
-        "ip6table_nat"
-        "ip6table_filter"
       ];
 
       # For store downloading
-      network.enable = true;
-      network.udhcpc.extraArgs = [ "-t 10" "-A 10" ];
+      network = {
+        enable = true;
+        udhcpc.extraArgs = [ "-t 10" "-A 10" ];
+      };
+
       extraUtilsCommands = ''
         copy_bin_and_libs ${pkgs.curl}/bin/curl
         copy_bin_and_libs ${pkgs.e2fsprogs}/bin/mke2fs

@@ -39,4 +39,5 @@
   };
 
   system.stateVersion = "22.11";
+  home-manager.users.litarvan.home.stateVersion = "23.05"; # Installed after updating to 23.05
 }

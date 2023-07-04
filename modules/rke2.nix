@@ -100,7 +100,22 @@ in
       }
     ];
 
-    environment.systemPackages = [ cfg.package ];
+    boot.kernelModules = [
+      "br_netfilter"
+      "iptable_nat"
+      "iptable_filter"
+      "ip6table_nat"
+      "ip6table_filter"
+    ];
+
+    environment = {
+      systemPackages = [ cfg.package ];
+
+      variables.KUBECONFIG = "/etc/rancher/rke2/rke2.yaml";
+      extraInit = ''
+        export PATH="/var/lib/rancher/rke2/bin:$PATH"
+      '';
+    };
 
     systemd.services.rke2 = {
       description = "RKE2 Kubernetes service";
@@ -128,14 +143,14 @@ in
           ++ (optional (cfg.configPath != null) "--config ${cfg.configPath}")
           ++ [ cfg.extraFlags ]
         );
-        ExecStopPost = ''/bin/sh -c "${pkgs.systemd}/bin/systemd-cgls /system/slice/%n | grep -Eo '[0-9]+ (containerd|kubelet)' | awk '{print $1}' | xargs -r kill"'';
+        ExecStopPost = ''/bin/sh -c "${pkgs.systemd}/bin/systemd-cgls /system/slice/%n | ${lib.getExe pkgs.gnugrep} -Eo '[0-9]+ (containerd|kubelet)' | ${lib.getExe pkgs.gawk} '{print $1}' | ${pkgs.findutils}/bin/xargs -r kill"'';
       };
     };
 
     systemd.services.leviathan-bootstrap = mkIf (cfg.bootstrapManifests != null) {
       description = "Leviathan bootstrap service";
-      wants = [ "rke2.service" ];
       after = [ "rke2.service" ];
+      wants = [ "rke2.service" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         Type = "oneshot";

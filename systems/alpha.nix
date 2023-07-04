@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 {
   boot = {
@@ -7,10 +7,11 @@
 
     postBootCommands = ''
       mkdir -p /data/{nvme1,hdd1,usb1}
+      chmod 700 /data
     '';
   };
 
-  netboot.enable = true;
+  leviathan.netboot.enable = true;
 
   networking = {
     hostName = "leviathan-alpha";
@@ -44,6 +45,7 @@
     };
   };
 
+  # environment.systemPackages = with pkgs; [ rke2 ];
   services.rke2 = {
     enable = true;
     bootstrapManifests = [
