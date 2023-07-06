@@ -4,6 +4,7 @@
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
     ./nginx.nix
+    ./wireguard.nix
   ];
 
   boot = {

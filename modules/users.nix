@@ -26,7 +26,8 @@ in
 
   users.users.root = {
    shell = pkgs.fish;
-   openssh.authorizedKeys.keys = ifNetboot [ sshKeys.yubiForge ];
+   # openssh.authorizedKeys.keys = ifNetboot [ sshKeys.yubiForge ];
+   openssh.authorizedKeys.keys = [ sshKeys.yubiForge ];
   };
 
   programs.fish = {
@@ -39,7 +40,7 @@ in
     ports = [ 36255 ];
     settings = {
       PasswordAuthentication = false;
-      PermitRootLogin = ifNotNetboot "no";
+      # PermitRootLogin = ifNotNetboot "no";
     };
   };
 

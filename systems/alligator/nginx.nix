@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
 
+let
+  vars = import ../../vars;
+in
 {
   networking.firewall = {
     allowedTCPPorts = [ 80 443 ];
@@ -8,10 +11,16 @@
 
   security.acme = {
     acceptTerms = true;
-    defaults.email = "adrien1975" + "@" + "live.fr";
+    defaults.email = "adrien1975" + "@" + "live.fr"; # TODO: Change
     certs."pxe.alligator.litarvan.dev" = {
       keyType = "rsa2048"; # iPXE does not support EC*
       extraLegoRunFlags = [ "--preferred-chain" "ISRG Root X1" ]; # iPXE is missing some root certificates
+    };
+    certs."litarvan.dev" = {
+      domain = "*.litarvan.dev";
+      dnsProvider = "netlify";
+      credentialsFile = "/var/lib/acme/netlify.env";
+      group = "nginx";
     };
   };
 
@@ -71,6 +80,12 @@
     in
     {
       "pxe.alligator.litarvan.dev" = folder "/var/www/pxe";
+
+      # This is in HTTP, but will still be encrypted through Wireguard, TODO: try using HTTPS though?
+      "*.litarvan.dev" = (proxy "http://${vars.wireguard.peers.leviathan-alpha.ips.v4}") // {
+        enableACME = false;
+        useACMEHost = "litarvan.dev";
+      };
     };
   };
 }
