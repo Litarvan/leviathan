@@ -1,7 +1,7 @@
 {
   wireguard = {
     interface = "alligator-guard";
-    port = "18635";
+    port = 18635;
 
     peers = {
       alligator = {

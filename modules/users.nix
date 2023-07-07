@@ -12,39 +12,36 @@ let
 
     ${lib.getExe pkgs.starship} init fish | source
   '';
-  ifNetboot = lib.mkIf config.leviathan.netboot.enable;
-  ifNotNetboot = lib.mkIf (!config.leviathan.netboot.enable);
 in
 {
-  users.users.litarvan = ifNotNetboot {
-    description = "Adrien Navratil";
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
-    shell = pkgs.fish;
-    openssh.authorizedKeys.keys = [ sshKeys.yubiForge ];
+  users.users = {
+    root = {
+     shell = pkgs.fish;
+     openssh.authorizedKeys.keys = [ sshKeys.yubiForge ]; # TODO: Remove
+    };
+
+    litarvan = {
+      description = "Adrien Navratil";
+      isNormalUser = true;
+      passwordFile = "/data/secrets/litarvan-password"; # Can be deleted on non-ephemeral machines (alligator) after user creation
+      extraGroups = [ "wheel" ];
+      shell = pkgs.fish;
+      openssh.authorizedKeys.keys = [ sshKeys.yubiForge ];
+    };
   };
 
-  users.users.root = {
-   shell = pkgs.fish;
-   # openssh.authorizedKeys.keys = ifNetboot [ sshKeys.yubiForge ];
-   openssh.authorizedKeys.keys = [ sshKeys.yubiForge ];
-  };
-
-  programs.fish = {
-    enable = true;
-    interactiveShellInit = ifNetboot fishInit;
-  };
+  programs.fish.enable = true;
 
   services.openssh = {
     enable = true;
     ports = [ 36255 ];
     settings = {
       PasswordAuthentication = false;
-      # PermitRootLogin = ifNotNetboot "no";
+      # PermitRootLogin = "no"; TODO: Add back
     };
   };
 
-  home-manager = ifNotNetboot {
+  home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
     users.litarvan = {

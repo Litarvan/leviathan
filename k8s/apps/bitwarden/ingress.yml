@@ -4,7 +4,6 @@ kind: Ingress
 metadata:
   name: bitwarden
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/server-snippet: |
       sendfile on;
       tcp_nodelay on;

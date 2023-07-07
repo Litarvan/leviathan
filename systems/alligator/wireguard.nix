@@ -20,7 +20,7 @@ in
       listenPort = vars.wireguard.port;
       mtu = 1420; # By adding this, I go from 0.5MB/s to 900MB/s :)
 
-      privateKeyFile = "/var/lib/wireguard/private-key";
+      privateKeyFile = "/data/secrets/wireguard-private-key";
 
       postUp = ''
         ${pkgs.iptables}/bin/iptables -A FORWARD -i wg0 -j ACCEPT

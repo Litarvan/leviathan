@@ -19,7 +19,7 @@ in
     certs."litarvan.dev" = {
       domain = "*.litarvan.dev";
       dnsProvider = "netlify";
-      credentialsFile = "/var/lib/acme/netlify.env";
+      credentialsFile = "/data/secrets/netlify.env";
       group = "nginx";
     };
   };
@@ -81,9 +81,8 @@ in
     {
       "pxe.alligator.litarvan.dev" = folder "/var/www/pxe";
 
-      # This is in HTTP, but will still be encrypted through Wireguard, TODO: try using HTTPS though?
-      "*.litarvan.dev" = (proxy "http://${vars.wireguard.peers.leviathan-alpha.ips.v4}") // {
-        enableACME = false;
+      "*.litarvan.dev" = (proxy "https://${vars.wireguard.peers.leviathan-alpha.ips.v4}") // {
+        enableACME = false; # We can't generate a wildcard certificate like this, instead we generate it using security.acme.certs earlier in this file
         useACMEHost = "litarvan.dev";
       };
     };

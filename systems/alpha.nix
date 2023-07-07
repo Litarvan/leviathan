@@ -7,10 +7,10 @@ in
 {
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "sd_mod" ];
-    kernelModules = [ "kvm-intel" ];
+    kernelModules = [ "kvm-intel" "nvme" ];
 
     postBootCommands = ''
-      mkdir -p /data/{nvme1,hdd1,usb1}
+      mkdir -p /data/{nvme1,usb1}
       chmod 700 /data
     '';
   };
@@ -34,7 +34,7 @@ in
       peers = [
         # Alligator
         {
-          endpoint = "${alligatorHost}:${vars.wireguard.port}";
+          endpoint = "${alligatorHost}:${toString vars.wireguard.port}";
           publicKey = vars.wireguard.peers.alligator.publicKey;
           allowedIPs = [ "0.0.0.0/0" "::/0" ];
         }
@@ -72,11 +72,6 @@ in
   fileSystems = {
     "/data/nvme1" = {
       label = "lvth_data_nvme1";
-      fsType = "ext4";
-    };
-
-    "/data/hdd1" = {
-      label = "lvth_data_hdd1";
       fsType = "ext4";
     };
 

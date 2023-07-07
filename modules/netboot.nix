@@ -35,10 +35,10 @@ in
         fsType = "ext4";
       };
 
-      "/root" = {
+      "/home" = {
         label = labels.home;
         fsType = "ext4";
-        neededForBoot = true;
+        neededForBoot = true; # For some reason, /home/litarvan is created before the mount if we omit this
       };
 
       # In stage 1, mount a tmpfs on top of /nix/store (the squashfs

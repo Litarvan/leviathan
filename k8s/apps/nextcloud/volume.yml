@@ -64,7 +64,7 @@ spec:
     namespace: nextcloud
     name: nextcloud-data
   local:
-    path: /data/hdd1/nextcloud-data
+    path: /data/nvme1/nextcloud-data
   nodeAffinity:
     required:
       nodeSelectorTerms:
