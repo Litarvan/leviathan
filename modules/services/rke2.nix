@@ -1,3 +1,5 @@
+# Derived from https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/services/cluster/k3s/default.nix
+
 { config, lib, pkgs, ... }:
 
 with lib;

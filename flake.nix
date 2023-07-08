@@ -10,10 +10,11 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, home-manager }:
+  outputs = { self, nixpkgs, flake-utils, home-manager } @ inputs:
     let
       inherit (nixpkgs) lib;
 
+      vars = import ./vars;
       systemsPkgs = builtins.listToAttrs (map (system: {
         name = system;
         value = import nixpkgs {
@@ -32,10 +33,9 @@
         packages = import ./pkgs { inherit lib pkgs; };
       }
     )) // {
-      inherit systemsPkgs;
       overlays = import ./pkgs/overlays.nix { inherit lib; };
 
       nixosModules = import ./modules;
-      nixosConfigurations = import ./systems { inherit self nixpkgs home-manager systemsPkgs; };
+      nixosConfigurations = import ./systems { inherit inputs vars systemsPkgs; };
     };
 }

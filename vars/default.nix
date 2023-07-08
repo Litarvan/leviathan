@@ -1,4 +1,13 @@
 {
+  timeZone = "Europe/Paris";
+
+  nameserver = "1.1.1.1";
+
+  ssh = {
+    port = 36255;
+    key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGoFiziKbq1TVgaiSp4SioutOG78WSkbJrrIYrKEYM5H cardno:16 097 343";
+  };
+
   wireguard = {
     interface = "alligator-guard";
     port = 18635;

@@ -9,13 +9,38 @@ in
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "sd_mod" ];
     kernelModules = [ "kvm-intel" "nvme" ];
 
+    netboot = true;
+
     postBootCommands = ''
       mkdir -p /data/{nvme1,usb1}
       chmod 700 /data
     '';
   };
 
-  leviathan.netboot.enable = true;
+  powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
+
+  hardware = {
+    opengl = {
+      enable = true;
+      driSupport32Bit = true;
+    };
+    nvidia.modesetting.enable = true;
+  };
+
+  fileSystems = {
+    "/data/nvme1" = {
+      label = "lvth_data_nvme1";
+      fsType = "ext4";
+    };
+
+    "/data/usb1" = {
+      label = "LVTH_ALPHA";
+      fsType = "vfat";
+    };
+  };
+
+  # The file should contain a single line with the bcrypt hashed password.
+  users.users.litarvan.passwordFile = "/data/usb1/secrets/litarvan-password";
 
   networking = {
     hostName = "leviathan-alpha";
@@ -48,7 +73,7 @@ in
       enable = true;
       bootstrapManifests = [
         {
-          path = "/data/usb1/secrets/*";
+          path = "/data/usb1/secrets/k8s/*";
         }
         {
           type = "kustomization";
@@ -58,26 +83,5 @@ in
     };
   };
 
-  hardware = {
-    opengl = {
-      enable = true;
-      driSupport32Bit = true;
-    };
-    nvidia.modesetting.enable = true;
-  };
-
   nix.settings.max-jobs = lib.mkDefault 4;
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-
-  fileSystems = {
-    "/data/nvme1" = {
-      label = "lvth_data_nvme1";
-      fsType = "ext4";
-    };
-
-    "/data/usb1" = {
-      label = "LVTH_ALPHA";
-      fsType = "vfat";
-    };
-  };
 }

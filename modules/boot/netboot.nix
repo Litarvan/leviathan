@@ -19,9 +19,9 @@ let
   };
 in
 {
-  options.leviathan.netboot.enable = mkEnableOption "Set defaults for creating a netboot image";
+  options.boot.netboot.enable = mkEnableOption "Set defaults for creating a netboot image";
 
-  config = mkIf config.leviathan.netboot.enable {
+  config = mkIf config.boot.netboot.enable {
     # Don't build the GRUB menu builder script, since we don't need it
     # here and it causes a cyclic dependency.
     boot.loader.grub.enable = false;

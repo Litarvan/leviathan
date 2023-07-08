@@ -19,10 +19,6 @@
     };
   };
 
-  networking.hostName = "alligator";
-
-  nix.settings.max-jobs = lib.mkDefault 4;
-
   fileSystems = {
     "/" = {
       device = "/dev/sda1";
@@ -39,6 +35,14 @@
       fsType = "vfat";
     };
   };
+
+  networking.hostName = "alligator";
+
+  # This can be deleted after the instance initial setup.
+  # The file should contain a single line with the bcrypt hashed password.
+  users.users.litarvan.passwordFile = "/data/secrets/litarvan-password";
+
+  nix.settings.max-jobs = lib.mkDefault 4;
 
   system.stateVersion = "22.11";
   home-manager.users.litarvan.home.stateVersion = "23.05"; # Installed after updating to 23.05
