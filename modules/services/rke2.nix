@@ -161,6 +161,14 @@ in
         Environment = "PATH=/run/current-system/sw/bin";
         ExecStart = lib.getExe (pkgs.writeShellScriptBin "leviathan-bootstrap" (concatStringsSep "\n" (map ({ type ? "resource", path }: ''
           while true; do
+            echo Waiting for cluster to be ready...
+            if ! KUBECONFIG=/etc/rancher/rke2/rke2.yaml /var/lib/rancher/rke2/bin/kubectl wait --for=condition=Ready nodes --all --timeout=-1s; then
+              echo Error waiting for cluster! Retrying in 5 seconds... # We can't use the Restart= option with oneshot services
+              sleep 5
+              echo
+              continue
+            fi
+
             echo Applying "${type}" "${path}"...
             KUBECONFIG=/etc/rancher/rke2/rke2.yaml /var/lib/rancher/rke2/bin/kubectl apply -"${if type == "kustomization" then "k" else "f"}" "${path}" && break
             echo Command failed! Retrying in 5 seconds...

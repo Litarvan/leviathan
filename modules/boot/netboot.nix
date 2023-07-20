@@ -7,16 +7,9 @@ with lib;
 
 let
   systemName = config.networking.hostName;
-  downloadRoot = https://pxe.alligator.litarvan.dev;
   storeFile = ".lvth_store.squashfs";
 
-  defaultNameserver = "1.1.1.1";
-
-  labels = {
-    root = "lvth_root";
-    rw_store = "lvth_rw_store";
-    home = "lvth_home";
-  };
+  vars = import ../../vars;
 in
 {
   options.boot.netboot.enable = mkEnableOption "Set defaults for creating a netboot image";
@@ -31,12 +24,12 @@ in
 
     fileSystems = {
       "/" = {
-        label = labels.root;
+        label = vars.diskLabels.root;
         fsType = "ext4";
       };
 
       "/home" = {
-        label = labels.home;
+        label = vars.diskLabels.home;
         fsType = "ext4";
         neededForBoot = true; # For some reason, /home/litarvan is created before the mount if we omit this
       };
@@ -51,7 +44,7 @@ in
       };
 
       "/nix/.rw-store" = {
-        label = labels.rw_store;
+        label = vars.diskLabels.rw_store;
         fsType = "ext4";
         neededForBoot = true;
       };
@@ -72,6 +65,9 @@ in
         # To mount /nix/store
         "squashfs"
         "overlay"
+
+        # To mount USB keys such as /data/usb1, needed to set litarvan's password
+        "usb_storage"
 
         # SATA support
         "ahci"
@@ -143,23 +139,23 @@ in
     # Network is done in preLVMCommands, which means it is already set up when
     # we get to postDeviceCommands
     boot.initrd.postDeviceCommands = ''
-      echo "nameserver ${defaultNameserver}" > /etc/resolv.conf
+      echo "nameserver ${vars.nameserver}" > /etc/resolv.conf
 
-      if ! mkfs.ext4 -F -L ${labels.rw_store} /dev/disk/by-label/${labels.rw_store}; then
+      if ! mkfs.ext4 -F -L ${vars.diskLabels.rw_store} /dev/disk/by-label/${vars.diskLabels.rw_store}; then
         echo "Failed to cleanup rw store partition"
       fi
 
-      if ! mkfs.ext4 -F -L ${labels.root} /dev/disk/by-label/${labels.root}; then
+      if ! mkfs.ext4 -F -L ${vars.diskLabels.root} /dev/disk/by-label/${vars.diskLabels.root}; then
         echo "Failed to cleanup root partition"
       fi
 
       mkdir -p $targetRoot # TODO: Better way?
-      mount -t ext4 /dev/disk/by-label/${labels.root} $targetRoot
-      if ! curl ${downloadRoot}/${systemName}.squashfs -o $targetRoot/${storeFile}; then
+      mount -t ext4 /dev/disk/by-label/${vars.diskLabels.root} $targetRoot
+      if ! curl ${vars.pxeRemote}/${systemName}.squashfs -o $targetRoot/${storeFile}; then
         echo "Failed to download squashfs"
         fail
       fi
-      umount $targetRoot # X D
+      umount $targetRoot # Without this, the real mount fails
     '';
 
     # Usually, stage2Init is passed using the init kernel command line argument

@@ -5,7 +5,7 @@ metadata:
   name: nix-course
 spec:
   rules:
-    - host: nix.litarvan.dev
+    - host: nix.litarvan.dev # TODO
       http:
         paths:
           - path: /

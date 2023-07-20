@@ -1,4 +1,27 @@
-{
+rec {
+  acmeEmail = "adrien1975" + "@" + "live.fr"; # TODO: Change
+
+  domains = {
+    root = "litarvan.dev";
+    subRoots = [ "alligator.litarvan.dev" "leviathan.litarvan.dev" "meow.litarvan.dev" ];
+
+    alligator = "alligator.${domains.root}";
+    pxe = "pxe.${domains.alligator}";
+  };
+
+  pxeRemote = "https://${domains.pxe}";
+
+  diskLabels = {
+    root = "lvth_root";
+    rw_store = "lvth_rw_store";
+    home = "lvth_home";
+
+    leviathan-alpha = {
+      usb1 = "LVTH_ALPHA";
+      nvme1 = "lvth_data_nvme1";
+    };
+  };
+
   timeZone = "Europe/Paris";
 
   nameserver = "1.1.1.1";
@@ -14,6 +37,7 @@
 
     peers = {
       alligator = {
+        host = domains.alligator;
         ips = {
           v4 = "10.0.1.1/24";
           v6 = "fc00::1/64";

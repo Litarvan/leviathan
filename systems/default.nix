@@ -1,25 +1,25 @@
 { inputs, systemsPkgs, vars, ... }:
 
 let
-  host = with input.nixpkgs.lib.attrsets; system: path:
+  host = with inputs.nixpkgs.lib.attrsets; system: path:
     let
       registry = (filterAttrs (name: _: name != "self") inputs) // { leviathan = inputs.self; };
       modules = [
         path
-        home-manager.nixosModules.home-manager
+        inputs.home-manager.nixosModules.home-manager
         {
           nix = {
-            nixPath = (mapAttrsToList (name: input: "${name}=${input}") inputs) ++ [ "nixos=${input.nixpkgs}" ];
+            nixPath = (mapAttrsToList (name: input: "${name}=${input}") inputs) ++ [ "nixos=${inputs.nixpkgs}" ];
             registry = mapAttrs (_: input: { flake = input; }) registry;
           };
           nixpkgs = {
             pkgs = systemsPkgs.${system};
-            overlays = attrValues self.overlays;
+            overlays = attrValues inputs.self.overlays;
           };
         }
-      ] ++ (attrValues self.nixosModules);
+      ] ++ (attrValues inputs.self.nixosModules);
     in
-    nixpkgs.lib.nixosSystem {
+    inputs.nixpkgs.lib.nixosSystem {
       inherit system;
 
       modules = modules ++ [
@@ -39,5 +39,5 @@ let
 in
 {
   alligator = host "aarch64-linux" ./alligator;
-  leviathan-alpha = host "x86_64-linux" ./alpha.nix;
+  leviathan-alpha = host "x86_64-linux" ./alpha;
 }

@@ -1,16 +1,16 @@
 { lib, pkgs, ... }:
 
 let
-  alligatorHost = "alligator.litarvan.dev";
-  vars = import ../vars;
+  vars = import ../../vars;
 in
 {
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "sd_mod" ];
     kernelModules = [ "kvm-intel" "nvme" ];
 
-    netboot = true;
+    kernelParams = [ "module_blacklist=i915" ];
 
+    netboot.enable = true;
     postBootCommands = ''
       mkdir -p /data/{nvme1,usb1}
       chmod 700 /data
@@ -19,23 +19,22 @@ in
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
 
-  hardware = {
-    opengl = {
-      enable = true;
-      driSupport32Bit = true;
-    };
-    nvidia.modesetting.enable = true;
+  hardware.opengl = {
+    enable = true;
+    driSupport32Bit = true;
   };
 
   fileSystems = {
     "/data/nvme1" = {
-      label = "lvth_data_nvme1";
+      label = vars.diskLabels.leviathan-alpha.nvme1;
       fsType = "ext4";
     };
 
     "/data/usb1" = {
-      label = "LVTH_ALPHA";
+      label = vars.diskLabels.leviathan-alpha.usb1;
       fsType = "vfat";
+      neededForBoot = true; # Else, /data/usb1 won't exist when litarvan's password file is read
+      options = [ "ro,umask=077" ];
     };
   };
 
@@ -46,20 +45,31 @@ in
     hostName = "leviathan-alpha";
     interfaces.eth0.useDHCP = true;
 
+    firewall = {
+      allowedTCPPorts = [ 443 ];
+      allowedUDPPorts = [ 443 ];
+    };
+
     wg-quick.interfaces.${vars.wireguard.interface} = {
       address = builtins.attrValues vars.wireguard.peers.leviathan-alpha.ips;
       privateKeyFile = "/data/usb1/secrets/wireguard-private-key";
 
-      # When using privateKeyFile, the private-key is set in the postUp hook.
-      # But the PersistentKeepAlive parameter is then "reset", so we must apply it again.
       postUp = ''
+        # When using privateKeyFile, the private-key is set in the postUp hook.
+        # But the PersistentKeepAlive parameter is then "reset", so we must apply it again.
         wg set ${vars.wireguard.interface} peer ${vars.wireguard.peers.alligator.publicKey} persistent-keepalive 25
+
+        # Kubernetes CIDRs must stay local
+        ip route add 10.43.0.0/16 dev lo # Kubernetes intern CIDR must stay local; TODO: Use variables, edit when multi-node
+      '';
+      postDown = ''
+        ip route delete 10.43.0.0/16 dev lo
       '';
 
       peers = [
         # Alligator
         {
-          endpoint = "${alligatorHost}:${toString vars.wireguard.port}";
+          endpoint = "${vars.wireguard.peers.alligator.host}:${toString vars.wireguard.port}";
           publicKey = vars.wireguard.peers.alligator.publicKey;
           allowedIPs = [ "0.0.0.0/0" "::/0" ];
         }
@@ -68,7 +78,13 @@ in
   };
 
   services = {
-    xserver.videoDrivers = [ "nvidia" ];
+    # xserver.videoDrivers = [ "nvidia" ];
+    openssh.hostKeys = [
+      {
+        path = "/data/usb1/secrets/ssh-host-ed25519-key";
+        type = "ed25519";
+      }
+    ];
     rke2 = {
       enable = true;
       bootstrapManifests = [

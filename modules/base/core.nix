@@ -18,7 +18,7 @@
   networking = {
     useDHCP = true;
     dhcpcd = {
-      wait = "any"; # Make sure we get an IP before marking the service as up
+      wait = "both"; # Without this, rke2 will not be able to start
       extraConfig = ''
         noipv4ll
       '';

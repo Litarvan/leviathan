@@ -11,16 +11,18 @@ in
 
   security.acme = {
     acceptTerms = true;
-    defaults.email = "adrien1975" + "@" + "live.fr"; # TODO: Change
+    defaults.email = vars.acmeEmail;
 
     certs = {
-      "pxe.alligator.litarvan.dev" = {
+      ${vars.domains.pxe} = {
         keyType = "rsa2048"; # iPXE does not support EC*
         extraLegoRunFlags = [ "--preferred-chain" "ISRG Root X1" ]; # iPXE is missing some root certificates
       };
 
-      "litarvan.dev" = {
-        domain = "*.litarvan.dev";
+      ${vars.domains.root} = {
+        domain = "*.${vars.domains.root}";
+        extraDomainNames = map (x: "*.${x}") vars.domains.subRoots;
+
         dnsProvider = "netlify";
         credentialsFile = "/data/secrets/netlify.env";
         group = "nginx";
@@ -44,34 +46,42 @@ in
       ssl_early_data on;
       ssl_ecdh_curve secp384r1;
 
-      add_header Expect-CT "max-age=0";
-      add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
-      add_header X-Content-Type-Options "nosniff" always;
-      add_header X-Frame-Options "SAMEORIGIN" always;
-      add_header Referrer-Policy "no-referrer-when-downgrade" always;
-
       charset UTF-8;
     '';
 
-    virtualHosts = {
-      "pxe.alligator.litarvan.dev" = {
-        enableACME = true;
-        forceSSL = true;
+    virtualHosts =
+      let
+        extraConfig = ''
+          add_header Expect-CT "max-age=0";
+          add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+          add_header X-Content-Type-Options "nosniff" always;
+          add_header X-Frame-Options "SAMEORIGIN" always;
+          add_header Referrer-Policy "no-referrer-when-downgrade" always;
+        '';
+      in
+      {
+        ${vars.domains.pxe} = {
+          enableACME = true;
+          forceSSL = true;
 
-        root = "/var/www/pxe";
-      };
+          root = "/var/www/pxe";
 
-      "*.litarvan.dev" = {
-        http2 = true;
-        quic = true;
+          inherit extraConfig;
+        };
 
-        useACMEHost = "litarvan.dev";
-        forceSSL = true;
+        "*.${vars.domains.root}" = {
+          http2 = true;
+          quic = true;
 
-        locations."/" = {
-          proxyPass = "https://${vars.wireguard.peers.leviathan-alpha.ips.v4}";
+          useACMEHost = vars.domains.root;
+          forceSSL = true;
+
+          inherit extraConfig;
+
+          locations."/" = {
+            proxyPass = "https://${builtins.head (builtins.split "/" vars.wireguard.peers.leviathan-alpha.ips.v4)}";
+          };
         };
       };
-    };
   };
 }
