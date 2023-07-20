@@ -10,4 +10,4 @@ spec:
   volumeName: haste-server
   resources:
     requests:
-      storage: 5Gi
+      storage: 50Gi

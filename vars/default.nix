@@ -2,11 +2,11 @@ rec {
   acmeEmail = "adrien1975" + "@" + "live.fr"; # TODO: Change
 
   domains = {
-    root = "litarvan.dev";
-    subRoots = [ "alligator.litarvan.dev" "leviathan.litarvan.dev" "meow.litarvan.dev" ];
+    root = "litarvan.com";
+    subRoots = [ "alligator.litarvan.com" "leviathan.litarvan.com" "meow.litarvan.com" "nix.litarvan.com" ];
 
-    alligator = "alligator.${domains.root}";
-    pxe = "pxe.${domains.alligator}";
+    alligator = "alligator.litarvan.com";
+    pxe = "pxe.alligator.litarvan.com";
   };
 
   pxeRemote = "https://${domains.pxe}";

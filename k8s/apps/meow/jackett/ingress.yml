@@ -5,7 +5,7 @@ metadata:
   name: jackett
 spec:
   rules:
-    - host: trackers.meow.litarvan.dev
+    - host: trackers.meow.litarvan.com
       http:
         paths:
           - path: /
@@ -17,5 +17,5 @@ spec:
                   name: http
   tls:
     - hosts:
-        - trackers.meow.litarvan.dev
+        - trackers.meow.litarvan.com
       secretName: trackers-meow-tls

@@ -5,7 +5,7 @@ metadata:
   name: flood-config
 spec:
   capacity:
-    storage: 100Mi
+    storage: 250Mi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
@@ -30,7 +30,7 @@ metadata:
   name: flood-data
 spec:
   capacity:
-    storage: 200Mi
+    storage: 750Mi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain

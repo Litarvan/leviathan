@@ -5,7 +5,7 @@ metadata:
   name: torrents
 spec:
   capacity:
-    storage: 10Gi # TODO: More!
+    storage: 2Ti
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain

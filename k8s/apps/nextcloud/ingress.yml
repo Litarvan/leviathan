@@ -13,7 +13,7 @@ metadata:
       }
 spec:
   rules:
-    - host: files.litarvan.dev
+    - host: files.litarvan.com
       http:
         paths:
           - path: /
@@ -25,5 +25,5 @@ spec:
                   name: http
   tls:
     - hosts:
-        - files.litarvan.dev
+        - files.litarvan.com
       secretName: files-tls

@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   admin.enabled: "false"
-  url: https://argocd.leviathan.litarvan.dev
+  url: https://argocd.leviathan.litarvan.com
   statusbadge.enabled: "true"
   ssh_known_hosts: |
     github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl

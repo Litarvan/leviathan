@@ -5,7 +5,7 @@ metadata:
   name: crosslink
 spec:
   rules:
-    - host: crosslink.litarvan.dev
+    - host: crosslink.litarvan.com
       http:
         paths:
           - path: /
@@ -17,5 +17,5 @@ spec:
                   name: http
   tls:
     - hosts:
-        - crosslink.litarvan.dev
+        - crosslink.litarvan.com
       secretName: crosslink-tls

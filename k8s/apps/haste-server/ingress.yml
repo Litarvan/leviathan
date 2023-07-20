@@ -5,7 +5,7 @@ metadata:
   name: haste-server
 spec:
   rules:
-    - host: code.litarvan.dev
+    - host: code.litarvan.com
       http:
         paths:
           - path: /
@@ -17,5 +17,5 @@ spec:
                   name: http
   tls:
     - hosts:
-        - code.litarvan.dev
+        - code.litarvan.com
       secretName: code-tls

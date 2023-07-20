@@ -10,7 +10,7 @@ spec:
   volumeName: flood-config
   resources:
     requests:
-      storage: 100Mi
+      storage: 250Mi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -23,4 +23,4 @@ spec:
   volumeName: flood-data
   resources:
     requests:
-      storage: 200Mi
+      storage: 750Mi

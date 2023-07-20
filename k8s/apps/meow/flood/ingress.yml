@@ -5,7 +5,7 @@ metadata:
   name: flood
 spec:
   rules:
-    - host: downloads.meow.litarvan.dev
+    - host: downloads.meow.litarvan.com
       http:
         paths:
           - path: /
@@ -17,5 +17,5 @@ spec:
                   name: http
   tls:
     - hosts:
-        - downloads.meow.litarvan.dev
+        - downloads.meow.litarvan.com
       secretName: downloads-meow-tls

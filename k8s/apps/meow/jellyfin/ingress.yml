@@ -5,7 +5,7 @@ metadata:
   name: jellyfin
 spec:
   rules:
-    - host: meow.litarvan.dev
+    - host: meow.litarvan.com
       http:
         paths:
           - path: /
@@ -17,5 +17,5 @@ spec:
                   name: http
   tls:
     - hosts:
-        - meow.litarvan.dev
+        - meow.litarvan.com
       secretName: meow-tls

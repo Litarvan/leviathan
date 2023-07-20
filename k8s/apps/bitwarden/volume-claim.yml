@@ -10,4 +10,4 @@ spec:
   volumeName: bitwarden
   resources:
     requests:
-      storage: 25Gi
+      storage: 100Gi

@@ -5,7 +5,7 @@ metadata:
   name: epilink
 spec:
   rules:
-    - host: epilink.litarvan.dev
+    - host: epilink.litarvan.com
       http:
         paths:
           - path: /
@@ -17,5 +17,5 @@ spec:
                   name: http
   tls:
     - hosts:
-        - epilink.litarvan.dev
+        - epilink.litarvan.com
       secretName: epilink-tls

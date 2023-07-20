@@ -5,7 +5,7 @@ metadata:
   name: haste-server
 spec:
   capacity:
-    storage: 5Gi
+    storage: 50Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain

@@ -6,6 +6,23 @@ with lib;
 
 let
   cfg = config.services.rke2;
+  # TODO: Move in a proper option!
+  containerdConfig = pkgs.writeText "config.toml.impl" ''
+version = 2
+[plugins]
+  [plugins."io.containerd.grpc.v1.cri"]
+    [plugins."io.containerd.grpc.v1.cri".containerd]
+      default_runtime_name = "nvidia"
+
+      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
+          privileged_without_host_devices = false
+          runtime_engine = ""
+          runtime_root = ""
+          runtime_type = "io.containerd.runc.v2"
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
+            BinaryName = "/usr/bin/nvidia-container-runtime"
+  '';
 in
 {
   # interface
@@ -137,6 +154,7 @@ in
         TasksMax = "infinity";
         TimeoutStartSec = 0;
         Environment = "PATH=/run/current-system/bin/sw:/run/wrappers/bin:${pkgs.iptables}/bin";
+        ExecStartPre = "/bin/sh -c 'mkdir -p /var/lib/rancher/rke2/agent/etc/containerd && ${pkgs.coreutils}/bin/cp ${containerdConfig} /var/lib/rancher/rke2/agent/etc/containerd/config.toml.impl'";
         ExecStart = concatStringsSep " \\\n " (
           [ "${cfg.package}/bin/rke2 ${cfg.role}" ]
           ++ (optional (cfg.serverAddr != "") "--server ${cfg.serverAddr}")

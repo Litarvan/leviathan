@@ -5,7 +5,7 @@ metadata:
   name: bitwarden
 spec:
   capacity:
-    storage: 5Gi # TODO: More!
+    storage: 100Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain

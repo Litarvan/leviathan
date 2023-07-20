@@ -10,7 +10,7 @@ spec:
   volumeName: nextcloud-apps
   resources:
     requests:
-      storage: 1Gi # TODO: More!
+      storage: 10Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -23,7 +23,7 @@ spec:
   volumeName: nextcloud-config
   resources:
     requests:
-      storage: 100Mi
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -36,7 +36,7 @@ spec:
   volumeName: nextcloud-data
   resources:
     requests:
-      storage: 5Gi # TODO: More!
+      storage: 738Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -49,4 +49,4 @@ spec:
   volumeName: nextcloud-theme
   resources:
     requests:
-      storage: 256Mi
+      storage: 1Gi

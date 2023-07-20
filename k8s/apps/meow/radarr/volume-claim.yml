@@ -10,4 +10,4 @@ spec:
   volumeName: radarr-config
   resources:
     requests:
-      storage: 100Mi
+      storage: 1Gi

@@ -10,7 +10,7 @@ spec:
   volumeName: jackett-config
   resources:
     requests:
-      storage: 100Mi
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -23,4 +23,4 @@ spec:
   volumeName: jackett-blackhole
   resources:
     requests:
-      storage: 1Gi
+      storage: 4Gi

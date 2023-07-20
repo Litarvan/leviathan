@@ -46,8 +46,8 @@ in
     interfaces.eth0.useDHCP = true;
 
     firewall = {
-      allowedTCPPorts = [ 443 ];
-      allowedUDPPorts = [ 443 ];
+      allowedTCPPorts = [ 443 3012 ]; # HTTPS - Bitwarden Websocket
+      allowedUDPPorts = [ 443 3012 ];
     };
 
     wg-quick.interfaces.${vars.wireguard.interface} = {
@@ -78,7 +78,7 @@ in
   };
 
   services = {
-    # xserver.videoDrivers = [ "nvidia" ];
+    xserver.videoDrivers = [ "nvidia" ];
     openssh.hostKeys = [
       {
         path = "/data/usb1/secrets/ssh-host-ed25519-key";
@@ -92,12 +92,17 @@ in
           path = "/data/usb1/secrets/k8s/*";
         }
         {
+          path = "https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.14.1/nvidia-device-plugin.yml";
+        }
+        {
           type = "kustomization";
           path = "github.com/Litarvan/leviathan/k8s/bootstrap";
         }
       ];
     };
   };
+
+  environment.systemPackages = with pkgs; [ nvidia-docker ];
 
   nix.settings.max-jobs = lib.mkDefault 4;
 }

@@ -5,7 +5,7 @@ metadata:
   name: qbittorrent
 spec:
   rules:
-    - host: torrents.meow.litarvan.dev
+    - host: torrents.meow.litarvan.com
       http:
         paths:
           - path: /
@@ -17,5 +17,5 @@ spec:
                   name: http
   tls:
     - hosts:
-        - torrents.meow.litarvan.dev
+        - torrents.meow.litarvan.com
       secretName: torrents-meow-tls

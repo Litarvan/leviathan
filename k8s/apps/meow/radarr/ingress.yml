@@ -5,7 +5,7 @@ metadata:
   name: radarr
 spec:
   rules:
-    - host: movies.meow.litarvan.dev
+    - host: movies.meow.litarvan.com
       http:
         paths:
           - path: /
@@ -17,5 +17,5 @@ spec:
                   name: http
   tls:
     - hosts:
-        - movies.meow.litarvan.dev
+        - movies.meow.litarvan.com
       secretName: movies-meow-tls

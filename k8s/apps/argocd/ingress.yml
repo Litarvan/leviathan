@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   rules:
-    - host: argocd.leviathan.litarvan.dev
+    - host: argocd.leviathan.litarvan.com
       http:
         paths:
           - path: /
@@ -20,5 +20,5 @@ spec:
                   name: https
   tls:
     - hosts:
-        - argocd.leviathan.litarvan.dev
+        - argocd.leviathan.litarvan.com
       secretName: argocd-secret

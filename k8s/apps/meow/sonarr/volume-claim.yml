@@ -10,4 +10,4 @@ spec:
   volumeName: sonarr-config
   resources:
     requests:
-      storage: 100Mi
+      storage: 1Gi

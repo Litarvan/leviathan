@@ -6,8 +6,8 @@ metadata:
   labels:
     app: nextcloud
 data:
-  TRUSTED_PROXIES: "10.42.0.0/32"
+  TRUSTED_PROXIES: "10.42.0.0/32 10.43.0.0/32"
   SQLITE_DATABASE: "nextcloud"
-  OVERWRITEHOST: "files.litarvan.dev"
+  OVERWRITEHOST: "files.litarvan.com"
   OVERWRITEPROTOCOL: "https"
-  OVERWRITECONDADDR: "^10\\.42\\.*"
+  OVERWRITECONDADDR: "^10\\.4(2|3)\\.*"

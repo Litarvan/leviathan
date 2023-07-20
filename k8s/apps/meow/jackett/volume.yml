@@ -5,7 +5,7 @@ metadata:
   name: jackett-config
 spec:
   capacity:
-    storage: 100Mi
+    storage: 1Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
@@ -30,7 +30,7 @@ metadata:
   name: jackett-blackhole
 spec:
   capacity:
-    storage: 1Gi # TODO: More?
+    storage: 4Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain

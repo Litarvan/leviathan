@@ -5,7 +5,7 @@ metadata:
   name: sonarr
 spec:
   rules:
-    - host: series.meow.litarvan.dev
+    - host: series.meow.litarvan.com
       http:
         paths:
           - path: /
@@ -17,5 +17,5 @@ spec:
                   name: http
   tls:
     - hosts:
-        - series.meow.litarvan.dev
+        - series.meow.litarvan.com
       secretName: series-meow-tls
