@@ -177,7 +177,7 @@ in
           ++ (optional (cfg.configPath != null) "--config ${cfg.configPath}")
           ++ [ cfg.extraFlags ]
         );
-        ExecStopPost = ''/bin/sh -c "${pkgs.systemd}/bin/systemd-cgls /system/slice/%n | ${lib.getExe pkgs.gnugrep} -Eo '[0-9]+ (containerd|kubelet)' | ${lib.getExe pkgs.gawk} '{print $1}' | ${pkgs.findutils}/bin/xargs -r kill"'';
+        ExecStopPost = ''/bin/sh -c "${pkgs.systemd}/bin/systemd-cgls /system.slice/%n | ${lib.getExe pkgs.gnugrep} -Eo '[0-9]+ (containerd|kubelet)' | ${lib.getExe pkgs.gawk} '{print $1}' | ${pkgs.findutils}/bin/xargs -r kill"'';
       };
     };
 
