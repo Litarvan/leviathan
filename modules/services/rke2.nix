@@ -10,11 +10,25 @@ let
   containerdConfig = pkgs.writeText "config.toml.impl" ''
 version = 2
 [plugins]
+  [plugins."io.containerd.internal.v1.opt"]
+    path = "/var/lib/rancher/rke2/agent/containerd"
   [plugins."io.containerd.grpc.v1.cri"]
+    stream_server_address = "127.0.0.1"
+    stream_server_port = "10010"
+    enable_selinux = false
+    enable_unprivileged_ports = true
+    enable_unprivileged_icmp = true
+    sandbox_image = "index.docker.io/rancher/pause:3.6"
     [plugins."io.containerd.grpc.v1.cri".containerd]
+      snapshotter = "overlayfs"
+      disable_snapshot_annotations = true
       default_runtime_name = "nvidia"
 
       [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+          runtime_type = "io.containerd.runc.v2"
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+            SystemdCgroup = true
         [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
           privileged_without_host_devices = false
           runtime_engine = ""
