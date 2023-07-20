@@ -2,10 +2,7 @@
 
 {
   users.users = {
-    root = {
-     shell = pkgs.fish;
-     openssh.authorizedKeys.keys = [ vars.ssh.key ]; # TODO: Remove
-    };
+    root.shell = pkgs.fish;
 
     litarvan = {
       description = "Adrien Navratil";
@@ -23,7 +20,7 @@
     ports = [ vars.ssh.port ];
     settings = {
       PasswordAuthentication = false;
-      # PermitRootLogin = "no"; TODO: Add back
+      PermitRootLogin = "no";
     };
   };
 
