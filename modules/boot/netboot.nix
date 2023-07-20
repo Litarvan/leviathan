@@ -149,6 +149,11 @@ in
         echo "Failed to cleanup root partition"
       fi
 
+      # TODO: REMOVE
+      if ! mkfs.ext4 -F -L ${vars.diskLabels.home} /dev/disk/by-label/${vars.diskLabels.home}; then
+        echo "Failed to cleanup home partition"
+      fi
+
       mkdir -p $targetRoot # TODO: Better way?
       mount -t ext4 /dev/disk/by-label/${vars.diskLabels.root} $targetRoot
       if ! curl ${vars.pxeRemote}/${systemName}.squashfs -o $targetRoot/${storeFile}; then

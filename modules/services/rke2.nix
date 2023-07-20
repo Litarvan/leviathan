@@ -154,7 +154,7 @@ in
         TasksMax = "infinity";
         TimeoutStartSec = 0;
         Environment = "PATH=/run/current-system/bin/sw:/run/wrappers/bin:${pkgs.iptables}/bin";
-        ExecStartPre = "/bin/sh -c 'mkdir -p /var/lib/rancher/rke2/agent/etc/containerd && ${pkgs.coreutils}/bin/cp ${containerdConfig} /var/lib/rancher/rke2/agent/etc/containerd/config.toml.impl'";
+        ExecStartPre = "/bin/sh -c '${pkgs.coreutils}/bin/mkdir -p /var/lib/rancher/rke2/agent/etc/containerd && ${pkgs.coreutils}/bin/cp ${containerdConfig} /var/lib/rancher/rke2/agent/etc/containerd/config.toml.tmpl'";
         ExecStart = concatStringsSep " \\\n " (
           [ "${cfg.package}/bin/rke2 ${cfg.role}" ]
           ++ (optional (cfg.serverAddr != "") "--server ${cfg.serverAddr}")
