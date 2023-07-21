@@ -46,10 +46,10 @@ spec:
               mountPath: /data
           resources:
             requests:
-              cpu: 400m
-              memory: 512Mi
+              cpu: 200m
+              memory: 256Mi
             limits:
-              memory: 1Gi
+              memory: 256Mi
       volumes:
         - name: bitwarden
           persistentVolumeClaim:

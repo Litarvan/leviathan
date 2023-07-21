@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: autodiscover
+  labels:
+    app: autodiscover
+data:
+  COMPANY_NAME: "Adrien Navratil"
+  SUPPORT_URL: "https://manage.mail.litarvan.com/" # TODO
+  DOMAIN: "litarvan.com"
+  IMAP_HOST: "mail.litarvan.com"
+  IMAP_PORT: "993"
+  IMAP_SOCKET: "SSL"
+  POP_HOST: "mail.litarvan.com"
+  POP_PORT: "995"
+  POP_SOCKET: "SSL"
+  SMTP_HOST: "mail.litarvan.com"
+  SMTP_PORT: "587"
+  SMTP_SOCKET: "STARTTLS"

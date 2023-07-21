@@ -2,36 +2,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nix-course
+  name: autodiscover
   labels:
-    app: nix-course
+    app: autodiscover
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: nix-course
+      app: autodiscover
   template:
     metadata:
       labels:
-        app: nix-course
+        app: autodiscover
     spec:
       containers:
-        - name: nix-course
-          image: ghcr.io/litarvan/nix-course-fr:main@sha256:5e3e041527b62d1cffea63354a5ce71ecf6905e64cd7765e15ffc5e198222a3e
+        - name: autodiscover
+          image: monogramm/autodiscover-email-settings:latest
           imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: autodiscover
+            - secretRef:
+                name: autodiscover
           ports:
             - name: http
-              containerPort: 3000
+              containerPort: 8000
           resources:
             requests:
               cpu: 50m
               memory: 128Mi
             limits:
               memory: 128Mi
-      imagePullSecrets:
-        - name: litarvan-github-registry
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000

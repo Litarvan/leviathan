@@ -1,0 +1,32 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: autodiscover
+spec:
+  rules:
+    - host: autodiscover.litarvan.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: autodiscover
+                port:
+                  name: http
+    - host: autoconfig.litarvan.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: autodiscover
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - autodiscover.litarvan.com
+        - autoconfig.litarvan.com
+      secretName: autodiscover-tls

@@ -6,6 +6,7 @@ namespace: argocd
 resources:
   - argocd.yml
 
+  - autodiscover.yml
   - bitwarden.yml
   - crosslink.yml
   - epilink.yml
