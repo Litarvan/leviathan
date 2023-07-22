@@ -16,5 +16,5 @@ data:
   POP_PORT: "995"
   POP_SOCKET: "SSL"
   SMTP_HOST: "mail.litarvan.com"
-  SMTP_PORT: "587"
-  SMTP_SOCKET: "STARTTLS"
+  SMTP_PORT: "465"
+  SMTP_SOCKET: "SSL"
