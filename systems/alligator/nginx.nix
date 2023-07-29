@@ -19,6 +19,8 @@ in
         extraLegoRunFlags = [ "--preferred-chain" "ISRG Root X1" ]; # iPXE is missing some root certificates
       };
 
+      ${vars.domains.meow}.extraLegoRunFlags = [ "--preferred-chain" "ISRG Root X1" ]; # My old LG TV (with webOS 1.X) is missing some root certificates too
+
       ${vars.domains.root} = {
         domain = "*.${vars.domains.root}";
         extraDomainNames = map (x: "*.${x}") vars.domains.subRoots;
@@ -69,6 +71,26 @@ in
           inherit extraConfig;
         };
 
+        # TODO: Generify
+        ${vars.domains.meow} = {
+          http2 = true;
+          quic = true;
+
+          enableACME = true;
+          forceSSL = true;
+
+          extraConfig = ''
+            add_header Expect-CT "max-age=0";
+            add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+            add_header X-Content-Type-Options "nosniff" always;
+            add_header Referrer-Policy "no-referrer-when-downgrade" always;
+          '';
+
+          locations."/" = {
+            proxyPass = "https://${builtins.head (builtins.split "/" vars.wireguard.peers.leviathan-alpha.ips.v4)}";
+          };
+        };
+ 
         "*.${vars.domains.root}" = {
           http2 = true;
           quic = true;
