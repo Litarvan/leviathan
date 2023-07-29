@@ -4,18 +4,14 @@ kind: Ingress
 metadata:
   name: bitwarden
   annotations:
+    ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/server-snippet: |
       sendfile on;
       tcp_nodelay on;
       tcp_nopush on;
-      location /notifications/hub {
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-      }
     nginx.ingress.kubernetes.io/configuration-snippet: |
       more_set_headers "Request-Id: $req_id";
-    nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
-    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/connection-proxy-header: "Upgrade"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/limit-connections: "25"
     nginx.ingress.kubernetes.io/limit-rps: "15"
@@ -42,6 +38,13 @@ spec:
                 name: bitwarden
                 port:
                   name: websocket
+          - path: /notifications/hub/negotiate
+            pathType: Exact
+            backend:
+              service:
+                name: bitwarden
+                port:
+                  name: http
   tls:
     - hosts:
         - passwords.litarvan.com

@@ -88,6 +88,7 @@ in
 
           locations."/" = {
             proxyPass = "https://${builtins.head (builtins.split "/" vars.wireguard.peers.leviathan-alpha.ips.v4)}";
+            proxyWebsockets = true;
           };
         };
  
@@ -102,6 +103,7 @@ in
 
           locations."/" = {
             proxyPass = "https://${builtins.head (builtins.split "/" vars.wireguard.peers.leviathan-alpha.ips.v4)}";
+            proxyWebsockets = true;
           };
         };
       };
