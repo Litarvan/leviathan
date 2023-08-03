@@ -7,7 +7,6 @@ rec {
 
     alligator = "alligator.litarvan.com";
     pxe = "pxe.alligator.litarvan.com";
-    meow = "meow.litarvan.com";
   };
 
   pxeRemote = "https://${domains.pxe}";
