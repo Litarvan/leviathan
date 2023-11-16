@@ -5,8 +5,8 @@ let
 in
 {
   networking.firewall = {
-    allowedTCPPorts = [ 80 443 ];
-    allowedUDPPorts = [ 80 443 ];
+    allowedTCPPorts = [ 80 443 30101 30102 ]; # TODO
+    allowedUDPPorts = [ 443 ];
   };
 
   security.acme = {
@@ -86,5 +86,20 @@ in
           };
         };
       };
+
+    # TODO: Remove (temporary for remote CLion)
+    appendConfig = ''
+      stream {
+        server {
+          listen 30101;
+          proxy_pass ${builtins.head (builtins.split "/" vars.wireguard.peers.leviathan-alpha.ips.v4)}:30101;
+        }
+
+        server {
+          listen 30102;
+          proxy_pass ${builtins.head (builtins.split "/" vars.wireguard.peers.leviathan-alpha.ips.v4)}:30102;
+        }
+      }
+    '';
   };
 }

@@ -45,11 +45,6 @@ in
     hostName = "leviathan-alpha";
     interfaces.eth0.useDHCP = true;
 
-    firewall = {
-      allowedTCPPorts = [ 443 3012 ]; # HTTPS - Bitwarden Websocket
-      allowedUDPPorts = [ 443 3012 ];
-    };
-
     wg-quick.interfaces.${vars.wireguard.interface} = {
       address = builtins.attrValues vars.wireguard.peers.leviathan-alpha.ips;
       privateKeyFile = "/data/usb1/secrets/wireguard-private-key";

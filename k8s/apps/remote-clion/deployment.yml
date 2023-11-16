@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: remote-clion
-          image: ghcr.io/litarvan/remote-clion:v1.0.0
+          image: ghcr.io/litarvan/remote-clion:v1.0.1
           imagePullPolicy: IfNotPresent
           ports:
             - name: server
@@ -35,7 +35,7 @@ spec:
               mountPath: /home/remote/project
           resources:
             requests:
-              cpu: 250m # Completely false
+              cpu: 1000m
               memory: 8192Mi
             limits:
               memory: 8192Mi
