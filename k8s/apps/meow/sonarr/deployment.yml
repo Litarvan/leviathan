@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: sonarr
-          image: linuxserver/sonarr:develop-version-4.0.0.575
+          image: linuxserver/sonarr:develop-version-4.0.0.720
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID

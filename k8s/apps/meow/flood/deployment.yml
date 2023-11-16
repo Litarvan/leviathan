@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: flood
-          image: jesec/flood:master-distroless
+          image: jesec/flood@sha256:b7393a75f9ca12f4467a7336012f65d598500ee74582fa5dafb01d09a60942ad
           imagePullPolicy: IfNotPresent
           args:
             - --allowedpath

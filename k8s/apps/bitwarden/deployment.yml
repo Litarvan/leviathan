@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: bitwarden
-          image: vaultwarden/server:1.29.0-alpine
+          image: vaultwarden/server:1.30.0-alpine
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
