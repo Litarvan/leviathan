@@ -35,7 +35,7 @@ spec:
               mountPath: /home/remote/project
           resources:
             requests:
-              cpu: 3000m
+              cpu: 250m # Completely false
               memory: 8192Mi
             limits:
               memory: 8192Mi
