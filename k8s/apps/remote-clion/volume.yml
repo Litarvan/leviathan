@@ -1,0 +1,75 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: remote-clion-ssh
+spec:
+  capacity:
+    storage: 10Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local
+  claimRef:
+    namespace: remote-clion
+    name: remote-clion-ssh
+  local:
+    path: /data/nvme1/remote-clion-ssh
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - leviathan-alpha
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: remote-clion-flake
+spec:
+  capacity:
+    storage: 50Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local
+  claimRef:
+    namespace: remote-clion
+    name: remote-clion-flake
+  local:
+    path: /data/nvme1/remote-clion-flake
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - leviathan-alpha
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: remote-clion-project
+spec:
+  capacity:
+    storage: 500Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local
+  claimRef:
+    namespace: remote-clion
+    name: remote-clion-project
+  local:
+    path: /data/nvme1/remote-clion-project
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - leviathan-alpha
