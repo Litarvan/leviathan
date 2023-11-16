@@ -40,5 +40,15 @@ spec:
             limits:
               memory: 8192Mi
               nvidia.com/gpu: 1
+      volumes:
+        - name: remote-clion-ssh
+          persistentVolumeClaim:
+            claimName: remote-clion-ssh
+        - name: remote-clion-flake
+          persistentVolumeClaim:
+            claimName: remote-clion-flake
+        - name: remote-clion-project
+          persistentVolumeClaim:
+            claimName: remote-clion-project
       imagePullSecrets:
         - name: litarvan-github-registry
