@@ -1,5 +1,6 @@
 # Derived from https://github.com/epita/nixpie/blob/master/modules/system/boot/netboot.nix
 #          and https://github.com/epita/nixpie/blob/master/lib/make-squashfs.nix
+#          and https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/installer/netboot/netboot.nix
 
 { config, lib, pkgs, ... }:
 
@@ -31,7 +32,7 @@ in
       "/home" = {
         label = vars.diskLabels.home;
         fsType = "ext4";
-        neededForBoot = true; # For some reason, /home/litarvan is created before the mount if we omit this
+        neededForBoot = true; # For some reason, /home/litarvan is created and filled before the mount if we omit this
       };
 
       # In stage 1, mount a tmpfs on top of /nix/store (the squashfs
@@ -149,11 +150,6 @@ in
         echo "Failed to cleanup root partition"
       fi
 
-      # TODO: REMOVE
-      if ! mkfs.ext4 -F -L ${vars.diskLabels.home} /dev/disk/by-label/${vars.diskLabels.home}; then
-        echo "Failed to cleanup home partition"
-      fi
-
       mkdir -p $targetRoot # TODO: Better way?
       mount -t ext4 /dev/disk/by-label/${vars.diskLabels.root} $targetRoot
       if ! curl ${vars.pxeRemote}/${systemName}.squashfs -o $targetRoot/${storeFile}; then
@@ -225,8 +221,7 @@ in
       contents = [
         {
           # Required for curl
-          object =
-            config.environment.etc."ssl/certs/ca-certificates.crt".source;
+          object = config.environment.etc."ssl/certs/ca-certificates.crt".source;
           symlink = "/etc/ssl/certs/ca-certificates.crt";
         }
       ];
