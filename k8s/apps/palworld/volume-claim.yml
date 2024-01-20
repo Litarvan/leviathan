@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: palworld
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local
+  volumeName: palworld
+  resources:
+    requests:
+      storage: 50Gi

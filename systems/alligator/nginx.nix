@@ -5,8 +5,8 @@ let
 in
 {
   networking.firewall = {
-    allowedTCPPorts = [ 80 443 30101 30102 ]; # TODO
-    allowedUDPPorts = [ 443 ];
+    allowedTCPPorts = [ 80 443 ];
+    allowedUDPPorts = [ 443 8211 ]; # TODO: 8211 is temporary for Palworld
   };
 
   security.acme = {
@@ -87,17 +87,12 @@ in
         };
       };
 
-    # TODO: Remove (temporary for remote CLion)
+    # TODO: Remove (temporary for Palworld)
     appendConfig = ''
       stream {
         server {
-          listen 30101;
+          listen 8211 udp;
           proxy_pass ${builtins.head (builtins.split "/" vars.wireguard.peers.leviathan-alpha.ips.v4)}:30101;
-        }
-
-        server {
-          listen 30102;
-          proxy_pass ${builtins.head (builtins.split "/" vars.wireguard.peers.leviathan-alpha.ips.v4)}:30102;
         }
       }
     '';

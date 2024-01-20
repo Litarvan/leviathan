@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: palworld
+  labels:
+    app: palworld
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: palworld
+  template:
+    metadata:
+      labels:
+        app: palworld
+    spec:
+      containers:
+        - name: palworld
+          image: jammsen/palworld-dedicated-server:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: udp
+              containerPort: 8211
+              protocol: UDP
+          env:
+            - name: PUBLIC_IP
+              value: "palworld.litarvan.com"
+          volumeMounts:
+            - name: palworld
+              mountPath: /palworld
+          resources:
+            requests:
+              cpu: 2500m
+              memory: 16Gi
+            limits:
+              memory: 16Gi
+      volumes:
+        - name: palworld
+          persistentVolumeClaim:
+            claimName: palworld
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        runAsNonRoot: true
