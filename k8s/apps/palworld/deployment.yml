@@ -20,7 +20,7 @@ spec:
       containers:
         - name: palworld
           image: jammsen/palworld-dedicated-server:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - name: udp
               containerPort: 8211
@@ -28,6 +28,8 @@ spec:
           env:
             - name: PUBLIC_IP
               value: "palworld.litarvan.com"
+            - name: ALWAYS_UPDATE_ON_START
+              value: "true"
           volumeMounts:
             - name: palworld
               mountPath: /palworld
