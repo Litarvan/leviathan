@@ -30,6 +30,16 @@ spec:
               value: "palworld.litarvan.com"
             - name: ALWAYS_UPDATE_ON_START
               value: "true"
+            - name: SERVER_NAME
+              value: "Epicole"
+            - name: SERVER_DESCRIPTION
+              value: "En mode sperme"
+            - name: SERVER_PASSWORD
+              value: ""
+            - name: BACKUP_ENABLED
+              value: "true"
+            - name: TZ
+              value: "Europe/Paris"
           volumeMounts:
             - name: palworld
               mountPath: /palworld
