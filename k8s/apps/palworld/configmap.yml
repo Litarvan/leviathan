@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: palworld
+  labels:
+    app: palworld
+data:
+  PUBLIC_IP: "palworld.litarvan.com"
+  ALWAYS_UPDATE_ON_START: "true"
+  SERVER_NAME: "Epicole"
+  SERVER_DESCRIPTION: "En mode sperme"
+  SERVER_PASSWORD: ""
+  BACKUP_ENABLED: "true"
+  TZ: "Europe/Paris"

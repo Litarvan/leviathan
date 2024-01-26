@@ -25,21 +25,11 @@ spec:
             - name: udp
               containerPort: 8211
               protocol: UDP
-          env:
-            - name: PUBLIC_IP
-              value: "palworld.litarvan.com"
-            - name: ALWAYS_UPDATE_ON_START
-              value: "true"
-            - name: SERVER_NAME
-              value: "Epicole"
-            - name: SERVER_DESCRIPTION
-              value: "En mode sperme"
-            - name: SERVER_PASSWORD
-              value: ""
-            - name: BACKUP_ENABLED
-              value: "true"
-            - name: TZ
-              value: "Europe/Paris"
+          envFrom:
+            - configMapRef:
+                name: palworld
+            - secretRef:
+                name: palworld
           volumeMounts:
             - name: palworld
               mountPath: /palworld
@@ -48,7 +38,7 @@ spec:
               cpu: 2500m
               memory: 16Gi
             limits:
-              memory: 16Gi
+              memory: 18Gi
       volumes:
         - name: palworld
           persistentVolumeClaim:
