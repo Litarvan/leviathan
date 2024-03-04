@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: nix-course
-          image: ghcr.io/litarvan/nix-course-fr:main@sha256:5e3e041527b62d1cffea63354a5ce71ecf6905e64cd7765e15ffc5e198222a3e
+          image: ghcr.io/litarvan/nix-course-fr:main@sha256:2f3bdbaf273c6057c88cda910954350d2f0e0d495c9f3f8ef5ffe91341fabf75
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
