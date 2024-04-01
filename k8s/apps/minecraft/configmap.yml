@@ -16,5 +16,5 @@ data:
   ALLOW_FLIGHT: "TRUE"
   ENABLE_WHITELIST: "TRUE"
   PVP: "false"
-  DIFFICULTY: "medium"
+  DIFFICULTY: "normal"
   USE_AIKAR_FLAGS: "true"
