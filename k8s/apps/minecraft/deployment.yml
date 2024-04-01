@@ -33,9 +33,9 @@ spec:
           resources:
             requests:
               cpu: 2500m
-              memory: 10Gi
+              memory: 15Gi
             limits:
-              memory: 10Gi
+              memory: 15Gi
       volumes:
         - name: minecraft
           persistentVolumeClaim:
