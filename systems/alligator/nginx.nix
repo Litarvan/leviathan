@@ -5,8 +5,8 @@ let
 in
 {
   networking.firewall = {
-    allowedTCPPorts = [ 80 443 ];
-    allowedUDPPorts = [ 443 8211 ]; # TODO: 8211 is temporary for Palworld
+    allowedTCPPorts = [ 80 443 25565 ]; # TODO: 25565 is temporary for Minecraft
+    allowedUDPPorts = [ 443 ];
   };
 
   security.acme = {
@@ -87,11 +87,11 @@ in
         };
       };
 
-    # TODO: Remove (temporary for Palworld)
+    # TODO: Remove (temporary for Minecraft)
     appendConfig = ''
       stream {
         server {
-          listen 8211 udp;
+          listen 25565;
           proxy_pass ${builtins.head (builtins.split "/" vars.wireguard.peers.leviathan-alpha.ips.v4)}:30101;
         }
       }
