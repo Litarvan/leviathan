@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: jackett
-          image: linuxserver/jackett:0.21.1424
+          image: linuxserver/jackett:0.21.2253
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID

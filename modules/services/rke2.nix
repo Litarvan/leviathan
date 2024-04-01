@@ -6,37 +6,50 @@ with lib;
 
 let
   cfg = config.services.rke2;
+
   # TODO: Move in a proper option!
   containerdConfig = pkgs.writeText "config.toml.impl" ''
-version = 2
-[plugins]
-  [plugins."io.containerd.internal.v1.opt"]
-    path = "/var/lib/rancher/rke2/agent/containerd"
-  [plugins."io.containerd.grpc.v1.cri"]
-    stream_server_address = "127.0.0.1"
-    stream_server_port = "10010"
-    enable_selinux = false
-    enable_unprivileged_ports = true
-    enable_unprivileged_icmp = true
-    sandbox_image = "index.docker.io/rancher/pause:3.6"
-    [plugins."io.containerd.grpc.v1.cri".containerd]
-      snapshotter = "overlayfs"
-      disable_snapshot_annotations = true
-      default_runtime_name = "nvidia"
+    version = 2
+    [plugins]
+      [plugins."io.containerd.internal.v1.opt"]
+        path = "/var/lib/rancher/rke2/agent/containerd"
+      [plugins."io.containerd.grpc.v1.cri"]
+        stream_server_address = "127.0.0.1"
+        stream_server_port = "10010"
+        enable_selinux = false
+        enable_unprivileged_ports = true
+        enable_unprivileged_icmp = true
+        sandbox_image = "index.docker.io/rancher/pause:3.6"
+        [plugins."io.containerd.grpc.v1.cri".containerd]
+          snapshotter = "overlayfs"
+          disable_snapshot_annotations = true
+          default_runtime_name = "nvidia"
 
-      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
-        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
-          runtime_type = "io.containerd.runc.v2"
-          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
-            SystemdCgroup = true
-        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
-          privileged_without_host_devices = false
-          runtime_engine = ""
-          runtime_root = ""
-          runtime_type = "io.containerd.runc.v2"
-          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
-            BinaryName = "/run/current-system/sw/bin/nvidia-container-runtime"
-            SystemdCgroup = true
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+            [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+              runtime_type = "io.containerd.runc.v2"
+              [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+                SystemdCgroup = true
+            [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
+              privileged_without_host_devices = false
+              runtime_engine = ""
+              runtime_root = ""
+              runtime_type = "io.containerd.runc.v2"
+              [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
+                BinaryName = "/run/current-system/sw/bin/nvidia-container-runtime"
+                SystemdCgroup = true
+  '';
+  canalConfig = pkgs.writeText "rke2-canal-config.yaml" ''
+    ---
+    apiVersion: helm.cattle.io/v1
+    kind: HelmChartConfig
+    metadata:
+      name: rke2-canal
+      namespace: kube-system
+    spec:
+      valuesContent: |-
+        calico:
+          vethuMTU: 1370 # Our MTU is 1420 because of Wireguard, so we need to set it manually (minus 50 for VLAN overhead)
   '';
 in
 {
@@ -169,7 +182,7 @@ in
         TasksMax = "infinity";
         TimeoutStartSec = 0;
         Environment = "PATH=/run/current-system/bin/sw:/run/wrappers/bin:${pkgs.iptables}/bin";
-        ExecStartPre = "/bin/sh -c '${pkgs.coreutils}/bin/mkdir -p /var/lib/rancher/rke2/agent/etc/containerd && ${pkgs.coreutils}/bin/cp ${containerdConfig} /var/lib/rancher/rke2/agent/etc/containerd/config.toml.tmpl'";
+        ExecStartPre = "/bin/sh -c '${pkgs.coreutils}/bin/mkdir -p /var/lib/rancher/rke2/{agent/etc/containerd,server/manifests} && ${pkgs.coreutils}/bin/cp ${containerdConfig} /var/lib/rancher/rke2/agent/etc/containerd/config.toml.tmpl && ${pkgs.coreutils}/bin/cp ${canalConfig} /var/lib/rancher/rke2/server/manifests/rke2-canal-config.yaml'";
         ExecStart = concatStringsSep " \\\n " (
           [ "${cfg.package}/bin/rke2 ${cfg.role}" ]
           ++ (optional (cfg.serverAddr != "") "--server ${cfg.serverAddr}")

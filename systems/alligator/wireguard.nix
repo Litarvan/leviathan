@@ -18,7 +18,7 @@ in
     wg-quick.interfaces.${vars.wireguard.interface} = {
       address = builtins.attrValues vars.wireguard.peers.alligator.ips;
       listenPort = vars.wireguard.port;
-      mtu = 1420; # By adding this, I go from 0.5MB/s to 900MB/s :)
+      mtu = 1420; # Wireguard requires room for its header, by setting this, network speed goes from 0.5MB/s to 900MB/s :)
 
       privateKeyFile = "/data/secrets/wireguard-private-key";
 
