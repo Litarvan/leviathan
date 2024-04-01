@@ -12,6 +12,7 @@ resources:
   - epilink.yml
   - haste-server.yml
   - meow.yml
+  - minecraft.yml
   - nextcloud.yml
   - nix-course.yml
-  - palworld.yml
+  # - palworld.yml

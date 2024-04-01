@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minecraft
+  labels:
+    app: minecraft
+data:
+  TZ: "Europe/Paris"
+  MEMORY: "8G"
+  EULA: "TRUE"
+  VERSION: "1.20.4"
+  SPAWN_PROTECTION: "0"
+  ALLOW_FLIGHT: "TRUE"
+  ENABLE_WHITELIST: "TRUE"

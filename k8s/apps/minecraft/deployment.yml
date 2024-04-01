@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft
+  labels:
+    app: minecraft
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      containers:
+        - name: minecraft
+          image: itzg/minecraft-server:2024.3.0-java17
+          imagePullPolicy: Always
+          ports:
+            - name: tcp
+              containerPort: 25565
+          envFrom:
+            - configMapRef:
+                name: minecraft
+          volumeMounts:
+            - name: minecraft
+              mountPath: /data
+          resources:
+            requests:
+              cpu: 2500m
+              memory: 10Gi
+            limits:
+              memory: 10Gi
+      volumes:
+        - name: minecraft
+          persistentVolumeClaim:
+            claimName: minecraft
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        runAsNonRoot: true
