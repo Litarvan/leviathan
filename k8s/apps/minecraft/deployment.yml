@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: minecraft
-          image: itzg/minecraft-server:2024.3.0-java17
+          image: itzg/minecraft-server:2024.5.0-java21
           imagePullPolicy: Always
           ports:
             - name: tcp
