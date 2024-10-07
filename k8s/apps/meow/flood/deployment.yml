@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: flood
-          image: jesec/flood@sha256:b7393a75f9ca12f4467a7336012f65d598500ee74582fa5dafb01d09a60942ad
+          image: jesec/flood@sha256:a2157c00b263ec902b37b285cb852a3048ddf9172f624e94fa829a720dbd301d
           imagePullPolicy: IfNotPresent
           args:
             - --allowedpath
