@@ -19,13 +19,16 @@ spec:
     spec:
       containers:
         - name: flaresolverr
-          image: flaresolverr/flaresolverr:v3.3.21
+          # image: flaresolverr/flaresolverr:v3.3.21
+          image: alexfozor/flaresolverr:pr-1300-experimental # https://github.com/FlareSolverr/FlareSolverr/pull/1300
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
               value: "1000"
             - name: PGID
               value: "1000"
+            - name: TZ
+              value: "Europe/Paris"
           ports:
             - name: http
               containerPort: 8191
