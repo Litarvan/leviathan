@@ -10,5 +10,5 @@ spec:
   ports:
     - name: udp
       port: 8211
-      nodePort: 30101
+      nodePort: 30102
       protocol: UDP
