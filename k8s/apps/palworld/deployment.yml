@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: palworld
-          image: jammsen/palworld-dedicated-server:1ea15dc
+          image: jammsen/palworld-dedicated-server:737b92f
           imagePullPolicy: Always
           ports:
             - name: udp

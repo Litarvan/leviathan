@@ -15,4 +15,4 @@ resources:
   - minecraft.yml
   - nextcloud.yml
   - nix-course.yml
-  # - palworld.yml
+  - palworld.yml
