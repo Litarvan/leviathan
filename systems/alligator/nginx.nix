@@ -5,8 +5,8 @@ let
 in
 {
   networking.firewall = {
-    allowedTCPPorts = [ 80 443 8211 ];
-    allowedUDPPorts = [ 443 ];
+    allowedTCPPorts = [ 80 443 ];
+    allowedUDPPorts = [ 443 8211 ];
   };
 
   security.acme = {
