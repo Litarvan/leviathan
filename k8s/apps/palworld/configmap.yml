@@ -6,8 +6,8 @@ metadata:
   labels:
     app: palworld
 data:
-  PUID: 1000
-  PGID: 1000
+  PUID: "1000"
+  PGID: "1000"
   TZ: "Europe/Paris"
   PUBLIC_IP: "palworld.litarvan.com"
   ALWAYS_UPDATE_ON_START: "true"
