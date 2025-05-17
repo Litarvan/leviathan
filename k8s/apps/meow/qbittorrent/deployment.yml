@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: qbittorrent
-          image: linuxserver/qbittorrent:5.0.0
+          image: linuxserver/qbittorrent:5.1.0
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID

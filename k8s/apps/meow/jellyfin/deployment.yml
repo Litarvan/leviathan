@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: jellyfin
-          image: jellyfin/jellyfin:10.9.11
+          image: jellyfin/jellyfin:10.10.7
           imagePullPolicy: IfNotPresent
           securityContext:
             privileged: true
