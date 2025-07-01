@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: nextcloud
-          image: nextcloud:29-apache
+          image: nextcloud:30-apache
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
