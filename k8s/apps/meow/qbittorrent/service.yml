@@ -21,7 +21,7 @@ spec:
   selector:
     app: qbittorrent
   ports:
-    - name: udp
+    - name: tcp
       port: 6881
       nodePort: 30103
       protocol: TCP
