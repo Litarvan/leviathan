@@ -5,8 +5,8 @@ let
 in
 {
   networking.firewall = {
-    allowedTCPPorts = [ 80 443 ];
-    allowedUDPPorts = [ 443 8211 ];
+    allowedTCPPorts = [ 80 443 6881 ];
+    allowedUDPPorts = [ 443 6881 8211 ];
   };
 
   security.acme = {
@@ -87,12 +87,22 @@ in
         };
       };
 
-    # Palworld
     appendConfig = ''
+      # Palworld
       stream {
         server {
           listen 8211 udp;
           proxy_pass ${builtins.head (builtins.split "/" vars.wireguard.peers.leviathan-alpha.ips.v4)}:30102;
+        }
+
+        # qBittorrent
+        server {
+          listen 6881;
+          proxy_pass ${builtins.head (builtins.split "/" vars.wireguard.peers.leviathan-alpha.ips.v4)}:30103;
+        }
+        server {
+          listen 6881 udp reuseport;
+          proxy_pass ${builtins.head (builtins.split "/" vars.wireguard.peers.leviathan-alpha.ips.v4)}:30103;
         }
       }
     '';
