@@ -77,14 +77,14 @@ in
           useACMEHost = vars.domains.root;
           forceSSL = true;
 
-          inherit extraConfig;
+          extraConfig = ''
+            ${extraConfig}
+            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
+          '';
 
           locations."/" = {
             proxyPass = "https://${builtins.head (builtins.split "/" vars.wireguard.peers.leviathan-alpha.ips.v4)}";
             proxyWebsockets = true;
-            extraConfig = ''
-              add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-            '';
           };
         };
       };
