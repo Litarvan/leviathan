@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 let
   vars = import ../../vars;
@@ -32,7 +32,6 @@ in
 
   services.nginx = {
     enable = true;
-    package = pkgs.nginxQuic;
 
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
@@ -83,11 +82,20 @@ in
           locations."/" = {
             proxyPass = "https://${builtins.head (builtins.split "/" vars.wireguard.peers.leviathan-alpha.ips.v4)}";
             proxyWebsockets = true;
+            extraConfig = ''
+              add_header Alt-Svc 'h3=":$server_port"; ma=86400';
+            '';
           };
         };
       };
 
+    eventsConfig = ''
+      worker_connections 2048;
+    '';
+
     appendConfig = ''
+      worker_rlimit_nofile 4096;
+
       # Palworld
       stream {
         server {
