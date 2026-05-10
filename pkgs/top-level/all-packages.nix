@@ -1,3 +1,3 @@
 {
-  rke2 = ../applications/rke2.nix;
+  # rke2 = ../applications/rke2.nix;
 }

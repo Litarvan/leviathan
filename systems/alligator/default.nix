@@ -40,7 +40,7 @@
 
   # This can be deleted after the instance initial setup.
   # The file should contain a single line with the bcrypt hashed password.
-  users.users.litarvan.passwordFile = "/data/secrets/litarvan-password";
+  users.users.litarvan.hashedPasswordFile = "/data/secrets/litarvan-password";
 
   nix.settings.max-jobs = lib.mkDefault 4;
 

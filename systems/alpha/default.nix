@@ -39,7 +39,7 @@ in
   };
 
   # The file should contain a single line with the bcrypt hashed password.
-  users.users.litarvan.passwordFile = "/data/usb1/secrets/litarvan-password";
+  users.users.litarvan.hashedPasswordFile = "/data/usb1/secrets/litarvan-password";
 
   networking = {
     hostName = "leviathan-alpha";
@@ -100,4 +100,6 @@ in
   environment.systemPackages = with pkgs; [ nvidia-docker ];
 
   nix.settings.max-jobs = lib.mkDefault 4;
+
+  # hardware.nvidia-container-toolkit.enable?
 }

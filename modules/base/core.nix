@@ -32,8 +32,7 @@
   environment.systemPackages = with pkgs; [ vim git ];
 
   nix = {
-    package = pkgs.nixVersions.nix_2_16;
+    package = pkgs.nixVersions.latest;
     settings.extra-experimental-features = [ "flakes" "nix-command" "repl-flake" ];
   };
-  nixpkgs.config.allowUnfree = true;
 }
