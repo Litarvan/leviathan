@@ -33,6 +33,6 @@
 
   nix = {
     package = pkgs.nixVersions.latest;
-    settings.extra-experimental-features = [ "flakes" "nix-command" "repl-flake" ];
+    settings.extra-experimental-features = [ "flakes" "nix-command" ];
   };
 }
