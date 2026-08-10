@@ -21,6 +21,8 @@ spec:
         - name: jellyfin
           image: jellyfin/jellyfin:10.11.5
           imagePullPolicy: IfNotPresent
+          # TODO: privileged should not be needed once the GPU is exposed through
+          #       the device plugin and CDI. Try dropping it.
           securityContext:
             privileged: true
           env:

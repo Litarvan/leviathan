@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: bitwarden
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`passwords.litarvan.com`)
+      middlewares:
+        - name: bitwarden-rate-limit
+        - name: bitwarden-in-flight-req
+      services:
+        - name: bitwarden
+          port: http

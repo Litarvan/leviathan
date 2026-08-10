@@ -1,0 +1,20 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: bitwarden-rate-limit
+spec:
+  rateLimit:
+    average: 15
+    period: 1s
+    burst: 75
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: bitwarden-in-flight-req
+spec:
+  inFlightReq:
+    amount: 25
+    sourceCriterion:
+      ipStrategy: {}

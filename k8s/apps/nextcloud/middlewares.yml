@@ -1,0 +1,12 @@
+---
+# Replaces the nginx server-snippet that 301'd the CardDAV/CalDAV well-known
+# URLs to the DAV endpoint (Nextcloud's setup check complains without it).
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud-well-known
+spec:
+  redirectRegex:
+    regex: '^https?://([^/]+)/\.well-known/(card|cal)dav$'
+    replacement: 'https://${1}/remote.php/dav'
+    permanent: true

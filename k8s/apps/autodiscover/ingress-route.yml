@@ -1,0 +1,14 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: autodiscover
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`autodiscover.litarvan.com`) || Host(`autoconfig.litarvan.com`)
+      services:
+        - name: autodiscover
+          port: http

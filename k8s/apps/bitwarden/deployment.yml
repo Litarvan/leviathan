@@ -29,9 +29,6 @@ spec:
           ports:
             - name: http
               containerPort: 8080
-            - name: websocket
-              containerPort: 3012
-              protocol: TCP
           volumeMounts:
             - name: bitwarden
               mountPath: /data

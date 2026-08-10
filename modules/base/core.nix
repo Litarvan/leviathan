@@ -1,4 +1,4 @@
-{ modulesPath, pkgs, vars, ... }:
+{ modulesPath, pkgs, ... }:
 
 {
   imports = [
@@ -13,7 +13,7 @@
   };
 
   i18n.defaultLocale = "en_US.UTF-8";
-  time.timeZone = vars.timeZone;
+  time.timeZone = "Europe/Paris";
 
   networking = {
     useDHCP = true;
@@ -23,7 +23,7 @@
         noipv4ll
       '';
     };
-    nameservers = [ vars.nameserver ]; # For some reason, rke2 will fail if we put more than 1
+    nameservers = [ "1.1.1.1" ]; # For some reason, rke2 will fail if we put more than 1
   };
 
   security.protectKernelImage = true;

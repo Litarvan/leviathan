@@ -11,4 +11,4 @@ resources:
   - configmap.yml
   - deployment.yml
   - service.yml
-  - ingress.yml
+  - ingress-route.yml

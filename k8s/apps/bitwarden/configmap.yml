@@ -10,7 +10,7 @@ data:
   SMTP_FROM: "noreply@passwords.litarvan.com"
   SMTP_PORT: "587"
   SMTP_SECURITY: "starttls"
-  WEBSOCKET_ENABLED: "true"
+  ENABLE_WEBSOCKET: "true"
   DATA_FOLDER: "/data"
   DOMAIN: "https://passwords.litarvan.com"
   ROCKET_WORKERS: "4"

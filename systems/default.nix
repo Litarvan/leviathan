@@ -1,4 +1,4 @@
-{ inputs, systemsPkgs, vars, ... }:
+{ inputs, systemsPkgs, ... }:
 
 let
   host = with inputs.nixpkgs.lib.attrsets; system: path:
@@ -34,10 +34,10 @@ let
           }).config.system.build.vm;
         })
       ];
-      specialArgs = { inherit vars; };
     };
 in
 {
-  alligator = host "aarch64-linux" ./alligator;
   leviathan-alpha = host "x86_64-linux" ./alpha;
+
+  installer = import ./installer.nix { inherit inputs systemsPkgs; system = "x86_64-linux"; };
 }

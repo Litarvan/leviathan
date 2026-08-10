@@ -14,4 +14,4 @@ spec:
     path: k8s/apps/minecraft
   destination:
     name: in-cluster
-    namespace: palworld
+    namespace: minecraft

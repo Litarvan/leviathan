@@ -1,4 +1,4 @@
-{ config, lib, pkgs, vars, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   users.users = {
@@ -9,7 +9,7 @@
       isNormalUser = true;
       extraGroups = [ "wheel" ];
       shell = pkgs.fish;
-      openssh.authorizedKeys.keys = [ vars.ssh.key ];
+      openssh.authorizedKeys.keyFiles = [ ../../litarvan.pub ];
     };
   };
 
@@ -17,7 +17,7 @@
 
   services.openssh = {
     enable = true;
-    ports = [ vars.ssh.port ];
+    ports = [ 36255 ];
     settings = {
       PasswordAuthentication = false;
       PermitRootLogin = "no";
@@ -44,7 +44,7 @@
           interactiveShellInit = ''
             clear
             echo
-            ${lib.getExe pkgs.neofetch}
+            ${lib.getExe pkgs.fastfetch}
             echo
 
             ${lib.getExe pkgs.starship} init fish | source

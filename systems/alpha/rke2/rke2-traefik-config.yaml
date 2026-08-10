@@ -1,0 +1,74 @@
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: rke2-traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    providers:
+      kubernetesCRD:
+        enabled: true
+      kubernetesIngress:
+        enabled: false
+      kubernetesGateway:
+        enabled: false
+    ingressClass:
+      enabled: false
+
+    service:
+      spec:
+        # Without this, ServiceLB masquerades the client IP and every request
+        # reaches Traefik from a pod IP: per-IP rate limiting and Nextcloud's
+        # brute-force protection would then apply to everyone at once.
+        externalTrafficPolicy: Local
+
+    deployment:
+      additionalVolumes:
+        - name: traefik-data
+          hostPath:
+            path: /var/traefik
+            type: Directory
+    additionalVolumeMounts:
+      - name: traefik-data
+        mountPath: /var/traefik
+
+    env:
+      - name: NETLIFY_TOKEN_FILE
+        value: /var/traefik/netlify-token
+
+    certificatesResolvers:
+      acme-netlify:
+        acme:
+          email: acme-a8d7@litarvan.com
+          storage: /var/traefik/acme.json
+          dnsChallenge:
+            provider: netlify
+
+    ports:
+      web:
+        http:
+          redirections:
+            entryPoint:
+              to: websecure
+              scheme: https
+              permanent: true
+      websecure:
+        http3:
+          enabled: true
+        http:
+          middlewares:
+            - kube-system-default-headers@kubernetescrd
+          tls:
+            enabled: true
+            certResolver: acme-netlify
+            domains:
+              - main: litarvan.com
+                sans:
+                  - "*.litarvan.com"
+                  - "*.leviathan.litarvan.com"
+                  - "*.meow.litarvan.com"
+                  - "*.nix.litarvan.com"
+        transport:
+          respondingTimeouts:
+            readTimeout: 1800s

@@ -2,10 +2,10 @@
   description = "Leviathan infrastructure";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -14,7 +14,6 @@
     let
       inherit (nixpkgs) lib;
 
-      vars = import ./vars;
       systemsPkgs = builtins.listToAttrs (map (system: {
         name = system;
         value = import nixpkgs {
@@ -36,6 +35,6 @@
       overlays = import ./pkgs/overlays.nix { inherit lib; };
 
       nixosModules = import ./modules;
-      nixosConfigurations = import ./systems { inherit inputs vars systemsPkgs; };
+      nixosConfigurations = import ./systems { inherit inputs systemsPkgs; };
     };
 }
