@@ -19,13 +19,15 @@ spec:
     spec:
       containers:
         - name: jackett
-          image: linuxserver/jackett:0.24.2177
+          image: linuxserver/jackett:0.24.2398
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
               value: "1000"
             - name: PGID
               value: "1000"
+            - name: AUTO_UPDATE
+              value: "true"
           ports:
             - name: http
               containerPort: 9117
