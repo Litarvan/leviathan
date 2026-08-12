@@ -65,6 +65,13 @@ spec:
       websecure:
         http3:
           enabled: true
+
+          # Traefik builds the Alt-Svc header from the entryPoint's own port,
+          # which is the in-container 8443, not the 443 the service publishes.
+          # Browsers cached "h3=:8443" (ma=2592000, so for 30 days) and kept
+          # opening QUIC connections to a port nothing listens on, stalling
+          # until they gave up and fell back to TCP. Only 443/udp is exposed.
+          advertisedPort: 443
         http:
           middlewares:
             - kube-system-default-headers@kubernetescrd
