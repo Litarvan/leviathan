@@ -13,3 +13,7 @@ patches:
   - path: patch-argocd-cm.yml
   - path: patch-argocd-cmd-params-cm.yml
   - path: patch-argocd-rbac-cm.yml
+  - path: patch-crds-ssa.yml
+    target:
+      group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
