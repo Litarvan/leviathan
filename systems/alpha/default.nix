@@ -89,7 +89,17 @@
         # the rke2-server unit's PATH (see systemd.services.rke2-server.path below).
         # That same discovery makes the base template emit the runtimes.nvidia
         # block on its own, so no custom containerdConfigTemplate is needed.
-        "--default-runtime=nvidia"
+        #
+        # nvidia-cdi (nvidia-container-runtime.cdi), not nvidia: without a
+        # /etc/nvidia-container-runtime/config.toml -- and the NixOS module writes
+        # none, it only generates the CDI spec in /run/cdi -- the plain runtime
+        # runs in "auto" mode, picks JIT CDI, and tries to dlopen libcuda.so.1 to
+        # locate the driver libraries. That lookup segfaults on NixOS (invalid
+        # free in internal/lookup.dlopenLocator), so every container carrying
+        # NVIDIA_VISIBLE_DEVICES dies with "nvidia-container-runtime did not
+        # terminate successfully: exit status 2". The .cdi variant pins mode=cdi
+        # and consumes the pre-generated spec instead, skipping that code path.
+        "--default-runtime=nvidia-cdi"
       ];
 
       # No .yaml/.yml suffix on the attribute names: rke2 rewrites every YAML
