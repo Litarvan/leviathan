@@ -36,7 +36,17 @@
       # 580 is the last branch supporting Maxwell/Pascal/Volta, the default (595) dropped them
       package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
     };
-    nvidia-container-toolkit.enable = true;
+    nvidia-container-toolkit = {
+      enable = true;
+
+      # The k8s device plugin defaults to --device-id-strategy=uuid, so it hands
+      # containers NVIDIA_VISIBLE_DEVICES=GPU-<uuid> and nvidia-container-runtime
+      # turns that into a nvidia.com/gpu=GPU-<uuid> CDI lookup. The module default
+      # ("index") only names devices "0" and "all", so that lookup misses and every
+      # GPU pod dies at task creation with "unresolvable CDI devices". Naming the
+      # devices by UUID here is what makes the two sides agree.
+      device-name-strategy = "uuid";
+    };
   };
 
   fileSystems = {
