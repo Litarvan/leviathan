@@ -9,6 +9,11 @@ spec:
     providers:
       kubernetesCRD:
         enabled: true
+        # The chart defaults this to "traefik", which makes the CRD provider skip
+        # every IngressRoute that lacks a matching kubernetes.io/ingress.class
+        # annotation -- i.e. all of ours. Empty means "no annotation, or the value
+        # traefik" is accepted, which is what we want.
+        ingressClass: ""
       kubernetesIngress:
         enabled: false
       kubernetesGateway:
@@ -17,6 +22,10 @@ spec:
       enabled: false
 
     service:
+      # This chart defaults service.type to ClusterIP; ServiceLB needs a
+      # LoadBalancer service to expose Traefik (and externalTrafficPolicy:
+      # Local is only valid on LoadBalancer/NodePort services).
+      type: LoadBalancer
       spec:
         # Without this, ServiceLB masquerades the client IP and every request
         # reaches Traefik from a pod IP: per-IP rate limiting and Nextcloud's

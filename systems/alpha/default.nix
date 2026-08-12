@@ -124,10 +124,9 @@
   environment = {
     variables.KUBECONFIG = "/etc/rancher/rke2/rke2.yaml";
 
-    # TOOD: Needed?
-    # extraInit = ''
-    #   export PATH="/var/lib/rancher/rke2/bin:$PATH"
-    # '';
+    extraInit = ''
+      export PATH="/var/lib/rancher/rke2/bin:$PATH"
+    '';
   };
 
   nix.settings.max-jobs = lib.mkDefault 4;
