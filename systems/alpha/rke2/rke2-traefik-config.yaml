@@ -6,6 +6,19 @@ metadata:
   namespace: kube-system
 spec:
   valuesContent: |-
+    image:
+      # rke2 1.34.11 bundles rancher/hardened-traefik:v3.7.11, a BoringCrypto
+      # (FIPS) build of Traefik carrying quic-go 0.61. Since quic-go 0.60 the QUIC
+      # address-validation token is encrypted with cipher.NewGCMWithRandomNonce,
+      # which rejects BoringCrypto's AES type, so Traefik closes every HTTP/3
+      # connection right after the handshake with "cipher: NewGCMWithRandomNonce
+      # requires aes.Block". HTTP/1.1 and HTTP/2 keep working, but clients that
+      # honour the Alt-Svc header (iOS URLSession, hence Swiftfin) switch to h3 and
+      # fail with "The network connection was lost" on every retry.
+      # This build pins quic-go back to 0.59.1. Drop the override once the rke2
+      # pinned by flake.lock bundles it (tracked in rancher/rke2#11771).
+      tag: v3.7.19-build20261118
+
     providers:
       kubernetesCRD:
         enabled: true
