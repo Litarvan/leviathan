@@ -1,5 +1,13 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, modulesPath, ... }:
 
+let
+  # The stock module does not export its installer script, so re-evaluate the
+  # module body against the real `config` and pull the script out of it.
+  stockInstaller =
+    (import "${modulesPath}/system/boot/loader/systemd-boot/systemd-boot.nix" {
+      inherit config lib pkgs;
+    }).config.content.system.build.installBootLoader;
+in
 {
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "sd_mod" ];
@@ -151,5 +159,16 @@
 
   nix.settings.max-jobs = lib.mkDefault 4;
 
-  system.stateVersion = "26.05";
+  system = {
+    stateVersion = "26.05";
+
+    build.installBootLoader = lib.mkForce (
+      pkgs.writeShellScript "install-systemd-boot-relaxed" ''
+        # ESP lives on an MBR disk, due to a bug in the Motherboard with GPT ones
+        # This variable skips bootctl's GPT/type-GUID validation.
+        export SYSTEMD_RELAX_ESP_CHECKS=1
+        exec ${stockInstaller} "$@"
+      ''
+    );
+  };
 }
